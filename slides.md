@@ -158,7 +158,6 @@ hideInToc: true
 
 </v-clicks>
 
-
 <div v-show="$clicks === 2" class="flex justify-center align-items mt-20px">
   <img src="/public/images/profile/collection_phase.svg" width="700px">
 </div>
@@ -168,49 +167,6 @@ hideInToc: true
 <div v-show="$clicks === 4" class="flex justify-center align-items mt-20px">
   <img src="/public/images/profile/usage_phase.svg" width="700px">
 </div>
-
----
-hideInToc: true
----
-
-# Collection of Profiles
-
-- The first compilation prepares the binary for profile collection
-  - **Instrumentation**: additional code to collect program regions frequencies 
-    - **Source-level** or **IR-level**
-  - **Sampling**: hardware counters used to monitor flow of executions
-  - **Tracing**: trace of executions collected and the used to compute profile
-- The output is always a **profile file** encoding information in a specific format
-
-<!-- FIX: Replace with image of profile format -->
-<div class="flex justify-center align-items mt-20px">
-  <img src="/public/images/profile/collection_phase.svg" width="600px">
-</div>
-
----
-hideInToc: true
----
-
-# Mapping of Profiles
-
-<!-- FIX: This could be written better -->
-- When the source program and the profile file are fed back to the compiler
-- The profile is mapped back to program constructs
-- The output is a program with **profile metadata** associated with
-
-<div class="flex justify-center align-items mt-20px">
-  <img src="/public/images/profile/mapping.svg" width="600px">
-</div>
-
----
-hideInToc: true
----
-
-# Usage of Profiles
-
-- The profiled program is ready to be optimized by an **optimization pipeline**
-  - Optimization passes will use the profile to guide their decisions
-  - Code will be **aggressively** transformed by thousands of passes
 
 ---
 
