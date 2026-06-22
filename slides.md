@@ -37,74 +37,28 @@ hideInToc: true
 <Toc maxDepth1 />
 
 ---
-
-# Compilers
-
-- Compilers are a crucial component of software development 
-
-<div class="flex gap-30px justify-center mt-20px mb-20px">
-  <Card v-click content="Correcteness" color="#d8e2dc"/>
-  <Card v-click content="Security" color="#ffe5d9"/>
-  <Card v-click content="Performance" color="#fec89a"/>
-</div>
-
-<v-click>
-
-- Modern Compiler Architecture
-
-</v-click>
-
-<div class="flex justify-center mt-20px mb-20px">
-
-<v-clicks>
-
-<div v-show="$clicks === 5" class="flex justify-center">
-    <img src="/public/images/architecture/frontend.svg" width=80%>
-</div>
-<div v-show="$clicks === 6" class="flex justify-center">
-    <img src="/public/images/architecture/middleend.svg" width=80%>
-</div>
-<div v-show="$clicks === 7" class="flex justify-center">
-    <img src="/public/images/architecture/backend.svg" width=80%>
-</div>
-
-</v-clicks>
-
-</div>
-
-<!--
-Compilers are a critical component of the modern software development pipeline 
-As they impact on the correcteness the security and the performance of generated programs
-
-The modern compiler infrastructure is divided into three main stages
-- The front-end, which translates the source program into an internal representation easier to analyze and manipulate.
-- The middle-end, which optimizes the internal representation by manipulating it.
-- The back-end, which translates the internal representation into the target language of choice.
--->
-
----
 hideInToc: true
 ---
 
 # Performance is Critical
 
 - As of today achieving optimal performance is of critical importance
-
-<div class="flex gap-30px justify-center mt-20px mb-20px">
-  <Card v-click content="Warehouse-scale applications" color="#d8e2dc" width="200px" height="70px"/>
-  <Card v-click content="Artificial Intelligence" color="#fcd5ce" width="200px" height="70px"/>
-</div>
+  - A 1% performance improvement can save millions of dollars annually in large-scale deployments.
 
 <v-clicks depth=2>
 
 - **Profile-Guided Optimization** is a way to achieve great performance
   - Optimization process **tailored** to the workload of the compiled program
-  - **Profile** = Frequencies of reached program regions while executing
+  - **Profile** = Execution frequencies of program regions
   - Eliminates the need to infer such information
   - Perfect for high-load applications
 
 </v-clicks>
 
+<div v-show="$clicks===5" class="flex gap-30px justify-center mt-20px mb-20px">
+  <Card content="Warehouse-scale applications" color="#d8e2dc" width="200px" height="70px"/>
+  <Card content="Artificial Intelligence" color="#fcd5ce" width="200px" height="70px"/>
+</div>
 
 <!--
 As of today, performance is a crucial property of software, due to the rise
@@ -195,7 +149,7 @@ Profile must be **complete** and **accurate** in each phase of its life-cycle
 
 </Warning>
 
-- Otherwise bad optimization decisions could be taken by the compiler!
+- Inaccurate profiles may lead the compiler to make suboptimal optimization decisions.
 - In practice, each phase hides sources of inaccuracies
   - **Sampling** strategies are inaccurate by nature
   - Dynamic nature of software leads to **stale profiles**
@@ -212,17 +166,66 @@ In practice this rarely happens, and the structural mismatch between the two ver
 -->
 
 ---
+hideInToc: true
+---
+
+# Example of Profile Mishandling
+
+<div style="display:flex; flex-direction:row; justify-content:space-evenly; align-items:center; height:80%;">
+
+<div style="display:flex; flex-direction:column; justify-content:space-evenly; align-items:center;">
+
+```c{all}
+// Before pass
+if (x > 0) { // Then branch taken 80 times
+    handle_positive(x) 🔥
+} else { // Else branch taken 20 times
+    handle_negative(x) ❄️
+}
+```
+
+```mermaid {theme: 'neutral', scale: 0.8}
+graph TD
+entry(if x > 0) -->|"T:80%"| else("handle_positive(x)")
+entry -->|"F:20%"| then("handle_negative(x)")
+
+style then fill:#bae1ff,color:#fffff
+style else fill:#ffb3ba,color:#fffff
+```
+
+</div>
+
+<div v-click style="display:flex; flex-direction:column; justify-content:space-evenly; align-items:center;" >
+
+```c{all}
+// After pass
+if (x <= 0) { // Then branch taken 80 times
+    handle_negative(x) 🔥
+} else { // Else branch taken 20 times
+    handle_positive(x) ❄️
+}
+```
+
+```mermaid {theme: 'neutral', scale: 0.8}
+graph TD
+entry(if x <= 0) -->|"T:80%"| else("handle_negative(x)")
+entry -->|"F:20%"| then("handle_positive(x)")
+
+style then fill:#bae1ff,color:#fffff
+style else fill:#ffb3ba,color:#fffff
+```
+
+</div>
+</div>
+
+---
 
 # State of the Art
 
 - Lots of effort to solve problems in the collection and mapping phases 
   - [^profi] Proposes a rectification algorithm to rectify profiles 
   - [^stale] Proposes an algorithm to adapt stale profiles to newer versions programs
-- The problem of profile inaccuracies introduced by optimizations is still open
-  - Recent insights shows that passes are mishandling profile metadata
-  - **Nullifies** solutions aiming at correcting profiles in earlier stages  
-  - **Static checks** on control-flow are not enough!
-- [^propagation], [^unittesting] only partially address failures in metadata propagation
+  - [^propagation], [^unittesting] only partially address failures in metadata propagation
 
 [^profi]: Wenlei He, Julián Mestre, Sergey Pupyrev, Lei Wang, and Hongtao Yu. “Profile inference revisited”.
 [^stale]: Amir Ayupov, Maksim Panchenko, and Sergey Pupyrev. “Stale Profile Matching”.
@@ -230,15 +233,37 @@ In practice this rarely happens, and the structural mismatch between the two ver
 [^unittesting]: Profile Information Propagation Unittesting: https://discourse.llvm.org/t/rfc-profile-information-propagation-unittesting/73595
 
 <!--
-Lots of effort was put by researchers to smooth out inaccuracies introduced in the collection and mapping phase. But, the problem of profile mishandling remains largely unstudied. Solving this problem is of critical importance because:
+Lots of effort was put by researchers to smooth out inaccuracies introduced in the collection and mapping phase. But, the problem of profile mishandling remains largely unstudied. -->
+
+---
+
+# Research Gap
+
+- Recently discovered **regressions** could be attributed to profile mishandling
+- It **nullifies** solutions aiming at correcting profiles in earlier stages  
+- **Non-trivial** solution
+  - What it means to correctly propagate profiles?
+  - No immediate correlation between before and after code
+  - **Interaction** between passes needs to be taken into account
+  - **Static checks** on control-flow are not enough!
+  - **No dedicated tools** to validate propagation logic
+
+<!--
+Solving this problem is of critical importance because:
 - Recent insights shows that performance regressions could be attributed to profile mishandling
 - Profile mishandling nullifies effort to correct profiles in earlier stages of the life-cycle, due to the profile degrading incrementally as the pipeline is applied
 - Not so easy to spot profile propagation errors. For example static checks like flow-conservation rules are not enough.
 -->
 
----
+<Warning class="mt-10px mb-10px">
 
-<!-- FIX: Check these two slides for sloppines, maybe some more details can be added -->
+Profile information is **transformed** together with the program, but unlike the program itself, its correctness cannot be directly observed.
+
+</Warning>
+
+<!-- FIX: The last two slides are sloppy 
+
+---
 
 # Research Proposal
 
@@ -246,7 +271,6 @@ Lots of effort was put by researchers to smooth out inaccuracies introduced in t
 - **Black-box** fuzzing strategy
   - Validates PGO behavior atop off-the-shelf compiler test methods
   - Constitute a way to spot profile propagation bugs in a systematic way
-<!-- FIX: Mention the non-trivial feedback mechanism -->
 - **Grey-box** fuzzing strategy with code and profile mutations
   - Uses already existing **test-suites** as a foundation
   - Novel **profile mutation** strategy
@@ -265,6 +289,8 @@ hideInToc: true
   - Reducing the costs of deployed applications
 - Energy savings due to optimal binaries
   - Environmental footprint reduced
+
+-->
 
 ---
 layout: center
