@@ -221,7 +221,7 @@ style else fill:#ffb3ba,color:#fffff
 <v-clicks depth=2>
 
 - Lots of effort to solve problems in the collection and mapping phases 
-  - [^profi] Proposes a rectification algorithm to rectify profiles 
+  - [^profi] Proposes a rectification algorithm to rectify sampled profiles 
   - [^stale] Proposes an algorithm to adapt stale profiles to newer versions programs
   - [^propagation], [^unittesting] only partially address failures in metadata propagation
 
@@ -232,8 +232,13 @@ style else fill:#ffb3ba,color:#fffff
 [^propagation]: Youfeng Wu. “Accuracy of Profile Maintenance in Optimizing Compilers”.
 [^unittesting]: Profile Information Propagation Unittesting: https://discourse.llvm.org/t/rfc-profile-information-propagation-unittesting/73595
 
-<!-- TODO: Add discourse here
-Lots of effort was put by researchers to smooth out inaccuracies introduced in those phase. But, the problem of profile mishandling remains largely unstudied.
+<!--
+Lots of effort was put by researchers to smooth out inaccuracies introduced in those phase.
+- The first work proposes an algorithm to rectify sampled profile by using flow-conservation rules
+- The second work proposes an algorithm to adapt stale profile to newer versions of the program by structurally matching the two versions.
+- The third work is a study on the scale of profile propagation errors within optimization pipeline and does not provide a way to asses profile correctness in practice.
+- The fourth is a practical step towards the unit-testing of profile information, and proposes a way to understand if profile are dropped by optimization passes
+but does not provide a way to understand wrong updates were made by them.
 -->
 
 ---
@@ -260,10 +265,10 @@ Profile information is **transformed** together with the program, but unlike the
 </Highlight>
 
 <!--
-Solving this problem is of critical importance because:
+The problem of profile mishandling remains largely unstudied, even though solving it is of critical importance because:
 - Recent insights shows that performance regressions could be attributed to profile mishandling
 - Profile mishandling nullifies effort to correct profiles in earlier stages of the life-cycle, due to the profile degrading incrementally as the pipeline is applied
-- Not so easy to spot profile propagation errors. For example static checks like flow-conservation rules are not enough.
+- Not so easy to spot profile propagation errors.
 -->
 
 ---
@@ -289,17 +294,25 @@ Can profile propagation accuracy be assessed systematically?
 
 </v-clicks>
 
---- 
+<!--
+So the research question I want to answer is: "Can profile propagation accuracy be assessed systematically?"
+I want to do so by designing and implementing a methodological and practical framework consisting of
+- A black-box fuzzing strategy that uses off-the-shelf random program generators to stress test the profile propagation logic in order to elicit bugs
+- A grey-box fuzzing strategy, implementing a Lightweight feedback mechanism with a custom coverage metric for the guidance of  code and profile mutations in order to 
+analyze the problem more in depth.
+-->
+
+---
 
 # Evaluation of the Proposed Directions
 
 <v-clicks depth=2>
 
 - **LLVM** compiler infrastructure as evaluation target
-- With the developed methodologies:
-  - Can I find new **bugs**? If so, how many?
-  - After fixing those bugs, can I see **performance improvement** in generated binaries?
-  - Can I **improve the coverage** of the LLVM codebase? By how much?
+- Can I with the developed methodologies:
+  - Find new **bugs**? If so, how many?
+  - **Improve the performance** of generated binaries?
+  - **Improve the coverage** of the LLVM codebase? By how much?
 
 </v-clicks>
 
@@ -311,10 +324,14 @@ Can profile propagation accuracy be assessed systematically?
 
 </div>
 
-<!-- TODO: Add discourse -->
+<!--
+I will evaluate the proposed methodologies on the LLVM compiler infrastructure being open source but also used in industry.
+The evaluation will be performed by checking if
+- I can find new bugs, and if so how many. 
+- Fixing those bugs lead to a performance improvement of generated binaries
+- Code and profile mutations lead to an improvement in the coverage of optimization passes
+-->
 
----
-hideInToc: true
 ---
 
 # Impacts and Benefits
@@ -327,7 +344,12 @@ hideInToc: true
 - **Energy savings** due to optimal binaries
   - Environmental footprint reduced
 
-<!-- TODO: Add discourse -->
+<!--
+The final impacts of my research consist of
+- New means for compiler developers to asses their PGO implementations
+- Faster PGO binaries for the users
+- Energy savings, thus reduced environmental footprint of large-scale applications
+-->
 
 ---
 layout: center
