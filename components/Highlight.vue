@@ -1,23 +1,20 @@
 <script setup>
 defineProps({
-  title: {
+  color: {
     type: String,
-    default: "Title",
+    default: "#ffb3ba"
   },
-  width: {
+  icon: {
     type: String,
-    default: "150px"
+    default: "/public/images/exclamation.svg"
   },
-  height: {
-    type: String,
-    default: "50px"
-  },
+
 })
 </script>
 
 <template>
   <div class="flex flex-row warning-box">
-    <img src="/images/exclamation.svg" width=50px/>
+    <img :src="icon" width=50px/>
     <div class="definition-content">
       <slot />
     </div>
@@ -26,7 +23,7 @@ defineProps({
 
 <style scoped>
 .warning-box {
-  background: #ffb3ba;
+  background: v-bind(color);
   border-radius: 5px;
   padding: 5px;
   border: 2px black solid;

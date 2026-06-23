@@ -42,11 +42,11 @@ hideInToc: true
 
 # Performance is Critical
 
+
+<v-clicks>
+
 - As of today achieving optimal performance is of critical importance
   - A 1% performance improvement can save millions of dollars annually in large-scale deployments.
-
-<v-clicks depth=2>
-
 - **Profile-Guided Optimization** is a way to achieve great performance
   - Optimization process **tailored** to the workload of the compiled program
   - **Profile** = Execution frequencies of program regions
@@ -55,10 +55,6 @@ hideInToc: true
 
 </v-clicks>
 
-<div v-show="$clicks===5" class="flex gap-30px justify-center mt-20px mb-20px">
-  <Card content="Warehouse-scale applications" color="#d8e2dc" width="200px" height="70px"/>
-  <Card content="Artificial Intelligence" color="#fcd5ce" width="200px" height="70px"/>
-</div>
 
 <!--
 As of today, performance is a crucial property of software, due to the rise
@@ -143,11 +139,11 @@ Looking at the PGO workflow, we can isolate three main phases of the profile lif
 
 - For an ideal PGO application
 
-<Warning class="mt-20px mb-20px">
+<Highlight class="mt-20px mb-20px">
 
 Profile must be **complete** and **accurate** in each phase of its life-cycle
 
-</Warning>
+</Highlight>
 
 - Inaccurate profiles may lead the compiler to make suboptimal optimization decisions.
 - In practice, each phase hides sources of inaccuracies
@@ -222,22 +218,29 @@ style else fill:#ffb3ba,color:#fffff
 
 # State of the Art
 
+<v-clicks depth=2>
+
 - Lots of effort to solve problems in the collection and mapping phases 
   - [^profi] Proposes a rectification algorithm to rectify profiles 
   - [^stale] Proposes an algorithm to adapt stale profiles to newer versions programs
   - [^propagation], [^unittesting] only partially address failures in metadata propagation
+
+</v-clicks>
 
 [^profi]: Wenlei He, Julián Mestre, Sergey Pupyrev, Lei Wang, and Hongtao Yu. “Profile inference revisited”.
 [^stale]: Amir Ayupov, Maksim Panchenko, and Sergey Pupyrev. “Stale Profile Matching”.
 [^propagation]: Youfeng Wu. “Accuracy of Profile Maintenance in Optimizing Compilers”.
 [^unittesting]: Profile Information Propagation Unittesting: https://discourse.llvm.org/t/rfc-profile-information-propagation-unittesting/73595
 
-<!--
-Lots of effort was put by researchers to smooth out inaccuracies introduced in the collection and mapping phase. But, the problem of profile mishandling remains largely unstudied. -->
+<!-- TODO: Add discourse here
+Lots of effort was put by researchers to smooth out inaccuracies introduced in those phase. But, the problem of profile mishandling remains largely unstudied.
+-->
 
 ---
 
 # Research Gap
+
+<v-clicks>
 
 - Recently discovered **regressions** could be attributed to profile mishandling
 - It **nullifies** solutions aiming at correcting profiles in earlier stages  
@@ -248,6 +251,14 @@ Lots of effort was put by researchers to smooth out inaccuracies introduced in t
   - **Static checks** on control-flow are not enough!
   - **No dedicated tools** to validate propagation logic
 
+</v-clicks>
+
+<Highlight v-click class="mt-10px mb-10px">
+
+Profile information is **transformed** together with the program, but unlike the program itself, its correctness cannot be directly observed.
+
+</Highlight>
+
 <!--
 Solving this problem is of critical importance because:
 - Recent insights shows that performance regressions could be attributed to profile mishandling
@@ -255,26 +266,52 @@ Solving this problem is of critical importance because:
 - Not so easy to spot profile propagation errors. For example static checks like flow-conservation rules are not enough.
 -->
 
-<Warning class="mt-10px mb-10px">
-
-Profile information is **transformed** together with the program, but unlike the program itself, its correctness cannot be directly observed.
-
-</Warning>
-
-<!-- FIX: The last two slides are sloppy 
-
 ---
 
 # Research Proposal
 
-- Methodological and practical framework
+<Highlight color="#ffdfba" icon="/public/images/question.svg" class="mt-10px mb-10px">
+
+Can profile propagation accuracy be assessed systematically?
+
+</Highlight>
+
+<v-clicks>
+
+- Methodological and practical framework 
 - **Black-box** fuzzing strategy
-  - Validates PGO behavior atop off-the-shelf compiler test methods
-  - Constitute a way to spot profile propagation bugs in a systematic way
-- **Grey-box** fuzzing strategy with code and profile mutations
-  - Uses already existing **test-suites** as a foundation
-  - Novel **profile mutation** strategy
-  - Lightweight feedback mechanism to guide mutations and cover more codebase
+  - Stress test profile propagation logic in order to elicit bugs
+  - Off-the-shelf random program generators
+- **Grey-box** fuzzing strategy
+  - Lightweight **feedback mechanism** to guide coverage
+  - Based on code and **profile** mutations
+  - Uses programs from already existing **test-suites** as foundation
+
+</v-clicks>
+
+--- 
+
+# Evaluation of the Proposed Directions
+
+<v-clicks depth=2>
+
+- **LLVM** compiler infrastructure as evaluation target
+- With the developed methodologies:
+  - Can I find new **bugs**? If so, how many?
+  - After fixing those bugs, can I see **performance improvement** in generated binaries?
+  - Can I **improve the coverage** of the LLVM codebase? By how much?
+
+</v-clicks>
+
+<div class="flex flex-row justify-center align-center gap-20px mt-70px mb-20px">
+
+  <Card v-show="$clicks>=3" content="Bugs" color="#ffb3ba"/> 
+  <Card v-show="$clicks>=4" content="Performance" color="#baffc9" />
+  <Card v-show="$clicks>=5" content="Coverage" color="#ffdfba" />
+
+</div>
+
+<!-- TODO: Add discourse -->
 
 ---
 hideInToc: true
@@ -282,18 +319,19 @@ hideInToc: true
 
 # Impacts and Benefits
 
-- Analysis tools for compiler developers, to asses their PGO implementations
+- **Analysis tools** for compiler developers, to asses their PGO implementations
   - Novel tools to study the problem
   - Enhancement of already existing testing-suites
-- Faster PGO binaries for the user
+- **Faster** PGO binaries for the user
   - Reducing the costs of deployed applications
-- Energy savings due to optimal binaries
+- **Energy savings** due to optimal binaries
   - Environmental footprint reduced
 
--->
+<!-- TODO: Add discourse -->
 
 ---
 layout: center
+hideInToc: true
 ---
 
 # Thanks for the attention!
