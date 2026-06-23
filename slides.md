@@ -45,7 +45,7 @@ hideInToc: true
 
 <v-clicks>
 
-- As of today achieving optimal performance is of critical importance
+- Achieving optimal performance is of critical importance today.
   - A 1% performance improvement can save millions of dollars annually in large-scale deployments.
 - **Profile-Guided Optimization** is a way to achieve great performance
   - Optimization process **tailored** to the workload of the compiled program
@@ -145,11 +145,15 @@ Profile must be **complete** and **accurate** in each phase of its life-cycle
 
 </Highlight>
 
+<v-clicks>
+
 - Inaccurate profiles may lead the compiler to make suboptimal optimization decisions.
 - In practice, each phase hides sources of inaccuracies
   - **Sampling** strategies are inaccurate by nature
-  - Dynamic nature of software leads to **stale profiles**
+  - The dynamic nature of software leads to **stale profiles**
   - Optimizing passes contain errors in **metadata propagation** logic
+
+</v-clicks>
 
 <!--
 By **accurate** I mean that the profile has to accurately reflect the actual workload experienced by the binary when executed in the production environment.
@@ -222,7 +226,7 @@ style else fill:#ffb3ba,color:#fffff
 
 - Lots of effort to solve problems in the collection and mapping phases 
   - [^profi] Proposes a rectification algorithm to rectify sampled profiles 
-  - [^stale] Proposes an algorithm to adapt stale profiles to newer versions programs
+  - [^stale] Proposes an algorithm to adapt stale profiles to newer programs versions 
   - [^propagation], [^unittesting] only partially address failures in metadata propagation
 
 </v-clicks>
@@ -243,14 +247,14 @@ but does not provide a way to understand wrong updates were made by them.
 
 ---
 
-# Research Gap
+# Profile Mishandling Research Gap
 
 <v-clicks>
 
 - Recently discovered **regressions** could be attributed to profile mishandling
-- It **nullifies** solutions aiming at correcting profiles in earlier stages  
+- Profile mishandling **nullifies** solutions aiming at correcting profiles in earlier stages  
 - **Non-trivial** solution
-  - What it means to correctly propagate profiles?
+  - What does it mean to correctly propagate profiles?
   - No immediate correlation between before and after code
   - **Interaction** between passes needs to be taken into account
   - **Static checks** on control-flow are not enough!
@@ -285,7 +289,7 @@ Can profile propagation accuracy be assessed systematically?
 
 - Methodological and practical framework 
 - **Black-box** fuzzing strategy
-  - Stress test profile propagation logic in order to elicit bugs
+  - Stress-test profile propagation logic in order to expose bugs.
   - Off-the-shelf random program generators
 - **Grey-box** fuzzing strategy
   - Lightweight **feedback mechanism** to guide coverage
@@ -309,10 +313,10 @@ analyze the problem more in depth.
 <v-clicks depth=2>
 
 - **LLVM** compiler infrastructure as evaluation target
-- Can I with the developed methodologies:
+- Can the proposed methodologies:
   - Find new **bugs**? If so, how many?
-  - **Improve the performance** of generated binaries?
-  - **Improve the coverage** of the LLVM codebase? By how much?
+  - **Improve the performance** of the generated binaries?
+  - Improve optimization-pass coverage within LLVM?
 
 </v-clicks>
 
@@ -336,13 +340,13 @@ The evaluation will be performed by checking if
 
 # Impacts and Benefits
 
-- **Analysis tools** for compiler developers, to asses their PGO implementations
+- **Analysis tools** for compiler developers, to assess their PGO implementations
   - Novel tools to study the problem
-  - Enhancement of already existing testing-suites
+  - Enhancement of existing testing-suites
 - **Faster** PGO binaries for the user
-  - Reducing the costs of deployed applications
+  - Reducing the operational costs of deployed applications.
 - **Energy savings** due to optimal binaries
-  - Environmental footprint reduced
+  - Reduced environmental footprint.
 
 <!--
 The final impacts of my research consist of
