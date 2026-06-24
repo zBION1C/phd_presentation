@@ -293,6 +293,63 @@ analyze the problem more in depth.
 -->
 
 ---
+hideInToc: true
+---
+
+# Black-Box Fuzzing: Methodology
+
+<div class="flex justify-center align-center mt-90px">
+<v-clicks>
+
+  <div v-show="$clicks === 1" >
+      <img src="/public/images/blackbox/blackbox1.svg">
+  </div>
+  <div v-show="$clicks === 2">
+      <img src="/public/images/blackbox/blackbox2.svg">
+  </div>
+  <div v-show="$clicks === 3">
+      <img src="/public/images/blackbox/blackbox3.svg">
+  </div>
+  <div v-show="$clicks === 4">
+      <img src="/public/images/blackbox/blackbox4.svg">
+  </div>
+
+</v-clicks>
+
+</div>
+
+---
+hideInToc: True
+---
+
+# Black-Box Fuzzing: Future Directions
+
+- Improving **automated** bug triaging
+  - Classify the large number of found mismatches
+  - Avoid reporting multiple instances of the same issue
+  - Hard to do due to complexity of randomly generated programs
+- Evaluate the framework on **real-world** applications
+  - Complete the validation of the methodology
+  - SPEC CPU 2017 to evaluate how performance are impacted by fixed bugs
+
+---
+hideInToc:true
+---
+
+# Grey-Box Fuzzing: Methodology
+
+<div class="flex flex-row justify-center">
+  <img src="/public/images/greybox/greybox.svg">
+</div>
+
+- Mutate both IR and profile metadata
+- Instrument optimization passes to obtain profile-aware coverage
+  - IR transformations
+  - Profile-update actions
+- Coverage guides exploration toward new optimization behaviors
+- Profile mutations exercise rarely tested PGO scenarios
+
+---
 
 # Evaluation of the Proposed Directions
 
