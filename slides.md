@@ -13,17 +13,6 @@ fonts:
 
 ## Robustifying Profile Information Propagation <br> in Profile-Guided Optimization
 
-<div class="flex items-center" style="gap:50px">
-<span>
-Supervisor<br>
-Prof. Daniele Cono D'Elia
-</span>
-<span>
-Co-supervisor<br>
-Dr. Cristian Assaiante
-</span>
-</div>
-
 <div class="absolute bottom-0 right-0">
     <img src="/public/images/logo.png" width="300" height="300">
 </div>
@@ -166,6 +155,33 @@ In practice this rarely happens, and the structural mismatch between the two ver
 -->
 
 ---
+
+# State of the Art
+
+<v-clicks depth=2>
+
+- Lots of effort to solve problems in the collection and mapping phases 
+  - [^profi] Proposes a rectification algorithm to rectify sampled profiles 
+  - [^stale] Proposes an algorithm to adapt stale profiles to newer programs versions 
+  - [^propagation], [^unittesting] only partially address failures in metadata propagation
+
+</v-clicks>
+
+[^profi]: Wenlei He, Julián Mestre, Sergey Pupyrev, Lei Wang, and Hongtao Yu. “Profile inference revisited”.
+[^stale]: Amir Ayupov, Maksim Panchenko, and Sergey Pupyrev. “Stale Profile Matching”.
+[^propagation]: Youfeng Wu. “Accuracy of Profile Maintenance in Optimizing Compilers”.
+[^unittesting]: Profile Information Propagation Unittesting: https://discourse.llvm.org/t/rfc-profile-information-propagation-unittesting/73595
+
+<!--
+Lots of effort was put by researchers to smooth out inaccuracies introduced in those phase.
+- The first work proposes an algorithm to rectify sampled profile by using flow-conservation rules
+- The second work proposes an algorithm to adapt stale profile to newer versions of the program by structurally matching the two versions.
+- The third work is a study on the scale of profile propagation errors within optimization pipeline and does not provide a way to asses profile correctness in practice.
+- The fourth is a practical step towards the unit-testing of profile information, and proposes a way to understand if profile are dropped by optimization passes
+but does not provide a way to understand wrong updates were made by them.
+-->
+
+---
 hideInToc: true
 ---
 
@@ -217,33 +233,6 @@ style else fill:#ffb3ba,color:#fffff
 
 </div>
 </div>
-
----
-
-# State of the Art
-
-<v-clicks depth=2>
-
-- Lots of effort to solve problems in the collection and mapping phases 
-  - [^profi] Proposes a rectification algorithm to rectify sampled profiles 
-  - [^stale] Proposes an algorithm to adapt stale profiles to newer programs versions 
-  - [^propagation], [^unittesting] only partially address failures in metadata propagation
-
-</v-clicks>
-
-[^profi]: Wenlei He, Julián Mestre, Sergey Pupyrev, Lei Wang, and Hongtao Yu. “Profile inference revisited”.
-[^stale]: Amir Ayupov, Maksim Panchenko, and Sergey Pupyrev. “Stale Profile Matching”.
-[^propagation]: Youfeng Wu. “Accuracy of Profile Maintenance in Optimizing Compilers”.
-[^unittesting]: Profile Information Propagation Unittesting: https://discourse.llvm.org/t/rfc-profile-information-propagation-unittesting/73595
-
-<!--
-Lots of effort was put by researchers to smooth out inaccuracies introduced in those phase.
-- The first work proposes an algorithm to rectify sampled profile by using flow-conservation rules
-- The second work proposes an algorithm to adapt stale profile to newer versions of the program by structurally matching the two versions.
-- The third work is a study on the scale of profile propagation errors within optimization pipeline and does not provide a way to asses profile correctness in practice.
-- The fourth is a practical step towards the unit-testing of profile information, and proposes a way to understand if profile are dropped by optimization passes
-but does not provide a way to understand wrong updates were made by them.
--->
 
 ---
 
