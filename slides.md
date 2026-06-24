@@ -44,7 +44,6 @@ hideInToc: true
 
 </v-clicks>
 
-
 <!--
 As of today, performance is a crucial property of software, due to the rise
 of resource-intensive applications like warehouse-scale or AI applications.
@@ -58,8 +57,6 @@ Profile-Guided Optimization, among other optimization strategies, stands-out for
 ---
 
 # Profile-Guided Optimization
-
-<!-- <div style="display:flex; justify-content:center; align-items:center; height:100%"> -->
 
 <div class="flex justify-center align-center mt-90px">
 <v-clicks>
