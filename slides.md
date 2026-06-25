@@ -1,5 +1,4 @@
 ---
-theme: academic
 layout: cover
 colorSchema: light
 transition: slide-left
@@ -282,6 +281,7 @@ Can profile propagation accuracy be assessed systematically?
 - A methodological and practical framework to
   - Assess the **soundness** of validation policies
   - Stress-test the compiler in order to **expose** profile propagation errors
+  - Accurately **pinpoint** causes of inaccuracies
 
 </v-clicks>
 
@@ -290,8 +290,10 @@ So the research question I want to answer is: "Can profile propagation accuracy 
 -->
 
 ---
+hideInToc: true
+---
 
-# Research Proposal: Validation Policies
+# Validation Policies
 
 - What does it mean for a profile to be accurately propagated?
 
@@ -302,7 +304,7 @@ So the research question I want to answer is: "Can profile propagation accuracy 
 <v-clicks depth=1>
 
 - Checking if the profile dictates a **flow that makes sense**
-  - Example: checking if the profile follows **flow-conservation rules**
+  - Example: checking if the profile follows **flow-conservation rules** <!-- FIX: Maybe this could be written without referencing flow-conservation rules-->
   - Good starting point, but not enough
 - Checking the profile against **ground-truth** values
   - Computed by **re-collecting** a profile for the optimized program
@@ -311,21 +313,38 @@ So the research question I want to answer is: "Can profile propagation accuracy 
 </v-clicks>
 
 ---
+hideInToc: true
+---
 
-# Research Proposal: Analysis Framework
+# Random Programs Methodology
 
-- Framework to test profile propagation logic through
-  - **Randomly** generated programs 
+- **Randomly** generated programs 
+  - Uses **off-the-shelf** random program generators
+  - Exploit **complexity** of random programs to uncover superficial bugs
+  - Automated **bug triaging** to classify the large number of issues
 
-  <div class="flex justify-center mt-10px mb-10px">
-    <img src="/public/images/validation.svg" />
-  </div>
+<!-- FIX: This image is not good at all, i don't like it -->
 
-  - **Mutations** of existing test suite programs
+<div class="flex justify-center mt-90px mb-20px">
+  <img src="/public/images/blackbox/random.svg"/>
+</div>
 
-  <div class="flex justify-center mt-10px mb-10px">
-    <img src="/public/images/validation.svg" />
-  </div>
+---
+hideInToc: true
+---
+
+# Mutations Methodology
+
+- **Mutations** of existing test suite programs
+  - **Feedback** mechanism through the instrumentation of optimization passes
+  - **Coverage metrics** obtained by the feedback
+  - **Code** and **profile** mutations guided by coverage
+  - Exposes **untested** regions of the compiler to uncover deeper issues
+
+<!-- FIX: This image is not good at all, i don't like it -->
+<div class="flex justify-center mt-20px mb-20px">
+  <img src="/public/images/greybox/greybox.svg"/>
+</div>
 
 ---
 
