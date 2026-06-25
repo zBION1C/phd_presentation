@@ -55,13 +55,9 @@ Profile-Guided Optimization, among other optimization strategies, stands-out for
 
 ---
 
-<!-- 
-FIX: The diagram is terrible! Change it with a more compact and curated diagram.
--->
-
 # Profile-Guided Optimization
 
-<div class="flex justify-center align-center mt-90px">
+<div class="flex justify-center align-center mt-60px">
 <v-clicks>
 
   <div v-show="$clicks === 1" >
@@ -78,12 +74,6 @@ FIX: The diagram is terrible! Change it with a more compact and curated diagram.
   </div>
   <div v-show="$clicks === 5">
       <img src="/public/images/pgo/pgo5.svg">
-  </div>
-  <div v-show="$clicks === 6">
-      <img src="/public/images/pgo/pgo6.svg">
-  </div>
-  <div v-show="$clicks === 7">
-      <img src="/public/images/pgo/pgo7.svg">
   </div>
 
 </v-clicks>
@@ -106,13 +96,13 @@ hideInToc: true
 </v-clicks>
 
 <div v-show="$clicks === 2" class="flex justify-center align-items mt-20px">
-  <img src="/public/images/profile/collection_phase.svg" width="700px">
+  <img src="/public/images/profile/collection.svg" width="400px">
 </div>
 <div v-show="$clicks === 3" class="flex justify-center align-items mt-20px">
-  <img src="/public/images/profile/mapping_phase.svg" width="700px">
+  <img src="/public/images/profile/mapping.svg" width="400px">
 </div>
 <div v-show="$clicks === 4" class="flex justify-center align-items mt-20px">
-  <img src="/public/images/profile/usage_phase.svg" width="700px">
+  <img src="/public/images/profile/usage.svg" width="400px">
 </div>
 
 <!--
@@ -304,7 +294,7 @@ hideInToc: true
 <v-clicks depth=1>
 
 - Checking if the profile dictates a **flow that makes sense**
-  - Example: checking if the profile follows **flow-conservation rules** <!-- FIX: Maybe this could be written without referencing flow-conservation rules-->
+  - Example: checking if the profile follows **flow-conservation rules**
   - Good starting point, but not enough
 - Checking the profile against **ground-truth** values
   - Computed by **re-collecting** a profile for the optimized program
@@ -320,7 +310,7 @@ hideInToc: true
 
 - **Randomly** generated programs 
   - Uses **off-the-shelf** random program generators
-  - Exploit **complexity** of random programs to uncover superficial bugs
+  - Exploit **complexity** of generated programs to uncover superficial bugs
   - Automated **bug triaging** to classify the large number of issues
 
 <!-- FIX: This image is not good at all, i don't like it -->
