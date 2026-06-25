@@ -11,7 +11,7 @@ fonts:
   mono: "Fira Code"
 ---
 
-## Robustifying Profile Information Propagation <br> in Profile-Guided Optimization
+## Robustifying Profile Information Propagation in Profile-Guided Optimization
 
 <div class="absolute bottom-0 right-0">
     <img src="/public/images/logo.png" width="300" height="300">
@@ -23,7 +23,7 @@ hideInToc: true
 
 # Table of Contents
 
-<Toc maxDepth1 />
+<Toc maxDepth=1 />
 
 ---
 hideInToc: true
@@ -55,6 +55,10 @@ Profile-Guided Optimization, among other optimization strategies, stands-out for
 -->
 
 ---
+
+<!-- 
+FIX: The diagram is terrible! Change it with a more compact and curated diagram.
+-->
 
 # Profile-Guided Optimization
 
@@ -159,7 +163,7 @@ In practice this rarely happens, and the structural mismatch between the two ver
 
 - Lots of effort to solve problems in the collection and mapping phases 
   - [^profi] Proposes a rectification algorithm to rectify sampled profiles 
-  - [^stale] Proposes an algorithm to adapt stale profiles to newer programs versions 
+  - [^stale] Proposes an algorithm to adapt stale profiles to newer program versions 
   - [^propagation], [^unittesting] only partially address failures in metadata propagation
 
 </v-clicks>
@@ -273,83 +277,59 @@ Can profile propagation accuracy be assessed systematically?
 
 <v-clicks>
 
-- Methodological and practical framework 
-- **Black-box** fuzzing strategy
-  - Stress-test profile propagation logic in order to expose bugs.
-  - Off-the-shelf random program generators
-- **Grey-box** fuzzing strategy
-  - Lightweight **feedback mechanism** to guide coverage
-  - Based on code and **profile** mutations
-  - Uses programs from already existing **test-suites** as foundation
+- The definition of profile **validation** policies
+  - A systematic way to spot **incorrect** profiles
+- A methodological and practical framework to
+  - Assess the **soundness** of validation policies
+  - Stress-test the compiler in order to **expose** profile propagation errors
 
 </v-clicks>
 
 <!--
 So the research question I want to answer is: "Can profile propagation accuracy be assessed systematically?"
-I want to do so by designing and implementing a methodological and practical framework consisting of
-- A black-box fuzzing strategy that uses off-the-shelf random program generators to stress test the profile propagation logic in order to elicit bugs
-- A grey-box fuzzing strategy, implementing a Lightweight feedback mechanism with a custom coverage metric for the guidance of  code and profile mutations in order to 
-analyze the problem more in depth.
 -->
 
 ---
-hideInToc: true
----
 
-# Black-Box Fuzzing: Methodology
+# Research Proposal: Validation Policies
 
-<div class="flex justify-center align-center mt-90px">
-<v-clicks>
+- What does it mean for a profile to be accurately propagated?
 
-  <div v-show="$clicks === 1" >
-      <img src="/public/images/blackbox/blackbox1.svg">
-  </div>
-  <div v-show="$clicks === 2">
-      <img src="/public/images/blackbox/blackbox2.svg">
-  </div>
-  <div v-show="$clicks === 3">
-      <img src="/public/images/blackbox/blackbox3.svg">
-  </div>
-  <div v-show="$clicks === 4">
-      <img src="/public/images/blackbox/blackbox4.svg">
-  </div>
+<div class="flex justify-center mt-20px mb-20px">
+  <img src="/public/images/validation.svg" />
+</div>
+
+<v-clicks depth=1>
+
+- Checking if the profile dictates a **flow that makes sense**
+  - Example: checking if the profile follows **flow-conservation rules**
+  - Good starting point, but not enough
+- Checking the profile against **ground-truth** values
+  - Computed by **re-collecting** a profile for the optimized program
+  - **Compare** the compiler generated profile against ground-truth values
 
 </v-clicks>
 
-</div>
-
----
-hideInToc: True
 ---
 
-# Black-Box Fuzzing: Future Directions
+# Research Proposal: Analysis Framework
 
-- Improving **automated** bug triaging
-  - Classify the large number of found mismatches
-  - Avoid reporting multiple instances of the same issue
-  - Hard to do due to complexity of randomly generated programs
-- Evaluate the framework on **real-world** applications
-  - Complete the validation of the methodology
-  - SPEC CPU 2017 to evaluate how performance are impacted by fixed bugs
+- Framework to test profile propagation logic through
+  - **Randomly** generated programs 
 
----
-hideInToc:true
----
+  <div class="flex justify-center mt-10px mb-10px">
+    <img src="/public/images/validation.svg" />
+  </div>
 
-# Grey-Box Fuzzing: Methodology
+  - **Mutations** of existing test suite programs
 
-<div class="flex flex-row justify-center">
-  <img src="/public/images/greybox/greybox.svg">
-</div>
-
-- Mutate both IR and profile metadata
-- Instrument optimization passes to obtain profile-aware coverage
-  - IR transformations
-  - Profile-update actions
-- Coverage guides exploration toward new optimization behaviors
-- Profile mutations exercise rarely tested PGO scenarios
+  <div class="flex justify-center mt-10px mb-10px">
+    <img src="/public/images/validation.svg" />
+  </div>
 
 ---
+
+<!-- FIX: This should be more lightweight -->
 
 # Evaluation of the Proposed Directions
 
@@ -359,7 +339,7 @@ hideInToc:true
 - Can the proposed methodologies:
   - Find new **bugs**? If so, how many?
   - **Improve the performance** of the generated binaries?
-  - Improve optimization-pass coverage within LLVM?
+  - Improve optimization pass coverage within LLVM?
 
 </v-clicks>
 
@@ -381,11 +361,13 @@ The evaluation will be performed by checking if
 
 ---
 
+<!-- FIX: This can be shortened -->
+
 # Impacts and Benefits
 
 - **Analysis tools** for compiler developers, to assess their PGO implementations
   - Novel tools to study the problem
-  - Enhancement of existing testing-suites
+  - Enhancement of existing test suites
 - **Faster** PGO binaries for the user
   - Reducing the operational costs of deployed applications.
 - **Energy savings** due to optimal binaries
