@@ -26,7 +26,7 @@ defineProps({
   background: v-bind(color);
   border-radius: 5px;
   padding: 5px;
-  border: 2px black solid;
+  border: 1px black solid;
 }
 
 .definition-content {

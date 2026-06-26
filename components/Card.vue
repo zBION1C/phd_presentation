@@ -35,7 +35,7 @@ defineProps({
   padding: 5px;
   width: v-bind(width);
   height: v-bind(height);
-  border: 2px black solid;
+  border: 1px black solid;
 }
 
 </style>

@@ -287,7 +287,7 @@ hideInToc: true
 
 - What does it mean for a profile to be accurately propagated?
 
-<div class="flex justify-center mt-20px mb-20px">
+<div class="flex justify-center mt-10px mb-10px">
   <img src="/public/images/validation.svg" />
 </div>
 
@@ -333,7 +333,6 @@ hideInToc: true
 
 # Mutations Approach
 
-
 - **Mutations** of existing test suite programs
   - **Feedback** mechanism through the instrumentation of optimization passes
   - Code and **profile** mutations guided by **custom coverage** metric
@@ -341,16 +340,16 @@ hideInToc: true
 
 <v-clicks>
 
-<div v-show="$clicks === 1" class="flex justify-center align-items mt-20px">
+<div v-show="$clicks === 1" class="flex justify-center align-items mt-10px">
   <img src="/public/images/greybox/greybox1.svg">
 </div>
-<div v-show="$clicks === 2" class="flex justify-center align-items mt-20px">
+<div v-show="$clicks === 2" class="flex justify-center align-items mt-10px">
   <img src="/public/images/greybox/greybox2.svg" >
 </div>
-<div v-show="$clicks === 3" class="flex justify-center align-items mt-20px">
+<div v-show="$clicks === 3" class="flex justify-center align-items mt-10px">
   <img src="/public/images/greybox/greybox3.svg">
 </div>
-<div v-show="$clicks === 4" class="flex justify-center align-items mt-20px">
+<div v-show="$clicks === 4" class="flex justify-center align-items mt-10px">
   <img src="/public/images/greybox/greybox4.svg">
 </div>
 
@@ -374,9 +373,9 @@ hideInToc: true
 
 <div class="flex flex-row justify-center align-center gap-20px mt-70px mb-20px">
 
-  <Card v-show="$clicks>=3" content="Bugs" color="#ffb3ba"/> 
-  <Card v-show="$clicks>=4" content="Performance" color="#baffc9" />
-  <Card v-show="$clicks>=5" content="Coverage" color="#ffdfba" />
+  <Card v-show="$clicks>=3" content="🕸️Bugs" color="none"/> 
+  <Card v-show="$clicks>=4" content="⚡Performance" color="none" />
+  <Card v-show="$clicks>=5" content="🧭Coverage" color="none" />
 
 </div>
 
@@ -390,17 +389,23 @@ The evaluation will be performed by checking if
 
 ---
 
-<!-- FIX: This can be shortened -->
-
 # Impacts and Benefits
 
+<v-clicks>
+
 - **Analysis tools** for compiler developers, to assess their PGO implementations
-  - Novel tools to study the problem
-  - Enhancement of existing test suites
 - **Faster** PGO binaries for the user
-  - Reducing the operational costs of deployed applications.
 - **Energy savings** due to optimal binaries
-  - Reduced environmental footprint.
+
+</v-clicks>
+
+<div class="flex flex-row justify-center align-center gap-20px mt-70px mb-20px">
+
+  <Card v-show="$clicks>=1" content="🛠️Analysis Tools" color="none" width=""/> 
+  <Card v-show="$clicks>=2" content="🚀Faster Binaries" color="none" width=""/>
+  <Card v-show="$clicks>=3" content="🌱Energy Savings" color="none" width=""/>
+
+</div>
 
 <!--
 The final impacts of my research consist of
