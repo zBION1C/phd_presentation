@@ -306,35 +306,55 @@ hideInToc: true
 hideInToc: true
 ---
 
-# Random Programs Methodology
+# Random Programs Approach
 
 - **Randomly** generated programs 
   - Uses **off-the-shelf** random program generators
   - Exploit **complexity** of generated programs to uncover superficial bugs
   - Automated **bug triaging** to classify the large number of issues
 
-<!-- FIX: This image is not good at all, i don't like it -->
+<v-clicks>
 
-<div class="flex justify-center mt-90px mb-20px">
-  <img src="/public/images/blackbox/random.svg"/>
+<div v-show="$clicks === 1" class="flex justify-center align-items mt-70px">
+  <img src="/public/images/blackbox/blackbox1.svg">
 </div>
+<div v-show="$clicks === 2" class="flex justify-center align-items mt-70px">
+  <img src="/public/images/blackbox/blackbox2.svg" >
+</div>
+<div v-show="$clicks === 3" class="flex justify-center align-items mt-70px">
+  <img src="/public/images/blackbox/blackbox3.svg">
+</div>
+
+</v-clicks>
 
 ---
 hideInToc: true
 ---
 
-# Mutations Methodology
+# Mutations Approach
+
 
 - **Mutations** of existing test suite programs
   - **Feedback** mechanism through the instrumentation of optimization passes
-  - **Coverage metrics** obtained by the feedback
-  - **Code** and **profile** mutations guided by coverage
+  - Code and **profile** mutations guided by **custom coverage** metric
   - Exposes **untested** regions of the compiler to uncover deeper issues
 
-<!-- FIX: This image is not good at all, i don't like it -->
-<div class="flex justify-center mt-20px mb-20px">
-  <img src="/public/images/greybox/greybox.svg"/>
+<v-clicks>
+
+<div v-show="$clicks === 1" class="flex justify-center align-items mt-20px">
+  <img src="/public/images/greybox/greybox1.svg">
 </div>
+<div v-show="$clicks === 2" class="flex justify-center align-items mt-20px">
+  <img src="/public/images/greybox/greybox2.svg" >
+</div>
+<div v-show="$clicks === 3" class="flex justify-center align-items mt-20px">
+  <img src="/public/images/greybox/greybox3.svg">
+</div>
+<div v-show="$clicks === 4" class="flex justify-center align-items mt-20px">
+  <img src="/public/images/greybox/greybox4.svg">
+</div>
+
+</v-clicks>
 
 ---
 
