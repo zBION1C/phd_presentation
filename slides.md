@@ -3,7 +3,6 @@ layout: cover
 colorSchema: light
 transition: slide-left
 highlighter: shiki
-hideInToc: true
 coverDate: false
 fonts:
   sans: "Maple Mono"
@@ -16,20 +15,33 @@ fonts:
     <img src="/public/images/logo.png" width="300" height="300">
 </div>
 
----
-hideInToc: true
----
-
-# Table of Contents
-
-<Toc maxDepth=1 />
+<div class="flex items-center mt-20px" style="gap:50px">
+<span>
+    Nicholas Montana
+</span>
+</div>
 
 ---
-hideInToc: true
+
+# Who Am I ?
+
+<v-clicks>
+
+- Cyberchallenge.it 2024 finalist
+- Capture-the-Flag player at the official Sapienza CTF team
+- Contributed to the LLVM compiler infrastructure by reporting undiscovered bugs 
+
+</v-clicks>
+
+<div class="flex flex-row justify-center align-center mt-50px gap-50px">
+  <img v-show="$clicks>=1" src="/public/images/cyberchallenge.png" width="20%">
+  <img v-show="$clicks>=2" src="/public/images/trx.png" width="20%">
+  <img v-show="$clicks>=3" src="/public/images/llvm.jpg" width="20%">
+</div>
+
 ---
 
 # Performance is Critical
-
 
 <v-clicks>
 
@@ -80,8 +92,6 @@ Profile-Guided Optimization, among other optimization strategies, stands-out for
 
 </div>
 
----
-hideInToc: true
 ---
 
 # Profile Life-cycle
@@ -171,8 +181,6 @@ Lots of effort was put by researchers to smooth out inaccuracies introduced in t
 but does not provide a way to understand wrong updates were made by them.
 -->
 
----
-hideInToc: true
 ---
 
 # Example of Profile Mishandling
@@ -266,47 +274,23 @@ Can profile propagation accuracy be assessed systematically?
 
 <v-clicks>
 
-- The definition of profile **validation** policies
-  - A systematic way to spot **incorrect** profiles
+<!-- - Systematically spot **incorrect** profile updates -->
+<!-- - Accurately **pinpoint** causes of inaccuracies -->
 - A methodological and practical framework to
-  - Assess the **soundness** of validation policies
-  - Stress-test the compiler in order to **expose** profile propagation errors
-  - Accurately **pinpoint** causes of inaccuracies
+  - Validate profile information propagation using **random** C programs
+  - Improve the PGO logic coverage of the tested compiler via **coverage-guided** testing
 
 </v-clicks>
 
 <!--
-So the research question I want to answer is: "Can profile propagation accuracy be assessed systematically?"
+So the research question I want to answer is: "Can profile propagation accuracy be assessed systematically?". I intend to answer this question by developing a methodological and practical framework that brings two contributions:
+- The validation of profile propagation logic using random C programs
+- The coverage improvement of the tested compiler infrastructure, focusing on PGO specifically 
 -->
 
 ---
-hideInToc: true
----
 
-# Validation Policies
-
-- What does it mean for a profile to be accurately propagated?
-
-<div class="flex justify-center mt-10px mb-10px">
-  <img src="/public/images/validation.svg" />
-</div>
-
-<v-clicks depth=1>
-
-- Checking if the profile dictates a **flow that makes sense**
-  - Example: checking if the profile follows **flow-conservation rules**
-  - Good starting point, but not enough
-- Checking the profile against **ground-truth** values
-  - Computed by **re-collecting** a profile for the optimized program
-  - **Compare** the compiler generated profile against ground-truth values
-
-</v-clicks>
-
----
-hideInToc: true
----
-
-# Random Programs Approach
+# Stress-Test approach
 
 - **Randomly** generated programs 
   - Uses **off-the-shelf** random program generators
@@ -327,15 +311,19 @@ hideInToc: true
 
 </v-clicks>
 
----
-hideInToc: true
+<!--
+The first direction I intend to explore is the usage of random programs.
+By using off-the-shelf random program generators and exploiting the complexity of generated programs I intend to uncover superficial profile propagation errors as a starting point.
+The framework would include an automatic-bug triaging mechanism to minimize the manual effort needed to analyze the result.
+-->
+
 ---
 
-# Mutations Approach
+# Coverage-Guided Testing 
 
 - **Mutations** of existing test suite programs
-  - **Feedback** mechanism through the instrumentation of optimization passes
-  - Code and **profile** mutations guided by **custom coverage** metric
+  - Well-established code mutations and a **novel profile mutations** approach
+  - **Feedback** mechanism that instantiates a coverage metric to guide mutations
   - Exposes **untested** regions of the compiler to uncover deeper issues
 
 <v-clicks>
@@ -355,9 +343,14 @@ hideInToc: true
 
 </v-clicks>
 
----
+<!--
+The second direction I intend to explore is the coverage improvement of profile propagation logic. I intend to do so by designing a novel coverage-guided mechanism which uses program drawn from 
+existing test-suite as a foundation, and consist of:
+- Classical code mutations and a novel profile mutator to explore untested regions of the compiler 
+- A lightweight feedback mechanism that instantiates a coverage metric to guide mutations
+-->
 
-<!-- FIX: This should be more lightweight -->
+---
 
 # Evaluation of the Proposed Directions
 
@@ -416,7 +409,6 @@ The final impacts of my research consist of
 
 ---
 layout: center
-hideInToc: true
 ---
 
 # Thanks for the attention!
