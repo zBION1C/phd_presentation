@@ -43,11 +43,22 @@ The problem of profile mishandling remains largely unstudied, even though solvin
 
 # Slide "Research Proposal"
 
-So the research question I want to answer is: "Can profile propagation accuracy be assessed systematically?"
-I want to do so by designing and implementing a methodological and practical framework consisting of
-- A black-box fuzzing strategy that uses off-the-shelf random program generators to stress test the profile propagation logic in order to elicit bugs
-- A grey-box fuzzing strategy, implementing a Lightweight feedback mechanism with a custom coverage metric for the guidance of  code and profile mutations in order to 
-analyze the problem more in depth.
+So the research question I want to answer is: "Can profile propagation accuracy be assessed systematically?". I intend to answer this question by developing a methodological and practical framework that brings two contributions:
+- The validation of profile propagation logic using random C programs
+- The coverage improvement of the tested compiler infrastructure, focusing on PGO specifically 
+
+# Slide "Stress-Test approach"
+
+The first direction I intend to explore is the usage of random programs.
+By using off-the-shelf random program generators and exploiting the complexity of generated programs I intend to uncover superficial profile propagation errors as a starting point.
+The framework would include an automatic-bug triaging mechanism to minimize the manual effort needed to analyze the result.
+
+# Slide "Coverage-Guided Testing"
+
+The second direction I intend to explore is the coverage improvement of profile propagation logic. I intend to do so by designing a novel coverage-guided mechanism which uses program drawn from 
+existing test-suite as a foundation, and consist of:
+- Classical code mutations and a novel profile mutator to explore untested regions of the compiler 
+- A lightweight feedback mechanism that instantiates a coverage metric to guide mutations
 
 # Slide "Evaluation of the Proposed Directions"
 
