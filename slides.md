@@ -292,10 +292,10 @@ So the research question I want to answer is: "Can profile propagation accuracy 
 
 # Stress-Test approach
 
-- **Randomly** generated programs 
+- Stress-testing profile propagation logic with randomly generated programs
   - Uses **off-the-shelf** random program generators
-  - Exploit **complexity** of generated programs to uncover superficial bugs
   - Automated **bug triaging** to classify the large number of issues
+- Efficacy is bounded by the **complexity** achievable by program generators
 
 <v-clicks>
 
@@ -322,10 +322,10 @@ The effectiveness of this methodology is bounded by the program complexity the g
 
 # Coverage-Guided Testing 
 
-- **Mutations** of existing test suite programs
-  - Well-established code mutations and a **novel profile mutations** approach
+- A deeper analysis approach, which uses 
+  - Classic code mutations strategies and **novel** profile mutations strategies
   - **Feedback** mechanism that instantiates a coverage metric to guide mutations
-  - Exposes **untested** regions of the compiler to uncover deeper issues
+- Exposes **untested** regions of the compiler to uncover deeper issues
 
 <v-clicks>
 
