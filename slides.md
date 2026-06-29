@@ -315,6 +315,7 @@ So the research question I want to answer is: "Can profile propagation accuracy 
 The first direction I intend to explore is the usage of random programs.
 By using off-the-shelf random program generators and exploiting the complexity of generated programs I intend to uncover superficial profile propagation errors as a starting point.
 The framework would include an automatic-bug triaging mechanism to minimize the manual effort needed to analyze the result.
+The effectiveness of this methodology is bounded by the program complexity the generators can achieve. 
 -->
 
 ---
@@ -344,10 +345,10 @@ The framework would include an automatic-bug triaging mechanism to minimize the 
 </v-clicks>
 
 <!--
-The second direction I intend to explore is the coverage improvement of profile propagation logic. I intend to do so by designing a novel coverage-guided mechanism which uses program drawn from 
-existing test-suite as a foundation, and consist of:
+That's why I intend to explore a second direction by designing a novel coverage-guided mechanism which uses program drawn from existing test-suite as a foundation, and consist of:
 - Classical code mutations and a novel profile mutator to explore untested regions of the compiler 
 - A lightweight feedback mechanism that instantiates a coverage metric to guide mutations
+This second direction should improve the coverage of the tested compiler's profile propagation logic.
 -->
 
 ---
