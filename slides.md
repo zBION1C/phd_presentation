@@ -76,8 +76,8 @@ even a 1% performance improvement can save millions of dollars annually.
 - Profile-Guided Optimization, among other optimization strategies, stands-out for achieving great performance.
 - The idea behind it is the tailoring of the optimization process around the workload of the application
 - It does so by using a profile for the application, which represents the execution frequencies of program regions
-- This eliminates the need to infer such information, which were computed by classical optimization in order to make optimization decisions
-- It is perfect for high-load applications, since complete profiles can be collected
+- This eliminates the need to infer such information, which were computed by classical optimization in order to take decisions
+- It is perfect for high-load applications, since complete and robust profiles can be collected
 -->
 
 ---
@@ -136,8 +136,8 @@ even a 1% performance improvement can save millions of dollars annually.
 
 <!--
 Looking at the PGO workflow, we can isolate three main phases of the profile life-cycle
-- Collection, where the profile is collected and persisted as a file. There are various collection techniques 
-- Mapping, where the profile mapped back to program constructs and is represented as metadata attached to them.
+- Collection, where the profile is collected and persisted as a file for later usage. 
+- Mapping, in which the profile file is read and profile metadata is generated and attached to program constructs
 - Usage, where the program associated with profile metadata is optimized and the profile is used to guide optimization decisions
 -->
 
@@ -166,13 +166,17 @@ Profile must be **complete** and **accurate** in each phase of its life-cycle
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
+There are some practical obstacles when applying PGO. For an ideal PGO application:
+The profile must be complete and accurate in each phase of its life-cycle
+
 By **accurate** I mean that the profile has to accurately reflect the actual workload experienced by the binary when executed in the production environment.
-Bad profiles could result in bad optimization decisions, leading ultimately to a sub-optimal program generation
+Indeed inaccurate profiles could result in bad optimization decisions, leading ultimately to a sub-optimal program generation.
+
 Nevertheless, in practice some sources of inaccuracies are hidden within the PGO workflow itself
 - Sampling collection strategies are inaccurate by nature, leading to inaccurate profiles collected
-- The dynamic nature of software leads to stale profiles. In fact before we assumed that the program version on which we collected the  profile is the same as the program version on which we want to use the profile.
-In practice this rarely happens, and the structural mismatch between the two versions make some part of the program unusable.
-- Finally, optimization pipeline themselves need to carefully update profile metadata after code transformations, so that later passes could still benefit from an accurate profile.
+- The dynamic nature of software leads to stale profiles. Before we assumed that the program version on which we collected the profile is the same as the program version on which we want to use the profile.
+In practice this rarely happens, and the structural mismatch between the two versions make some part of the profile unusable.
+- Finally, optimization pipeline themselves need to carefully update profile metadata after code transformations, so that downstream passes could still benefit from an accurate profile.
 -->
 
 ---
@@ -181,7 +185,7 @@ In practice this rarely happens, and the structural mismatch between the two ver
 
 <v-clicks depth=2>
 
-- Lots of effort to solve problems in the collection and mapping phases 
+- Lots of effort to solve these problems
   - [^profi] Proposes a rectification algorithm to rectify sampled profiles 
   - [^stale] Proposes an algorithm to adapt stale profiles to newer program versions 
   - [^propagation], [^unittesting] only partially address failures in metadata propagation
@@ -196,12 +200,11 @@ In practice this rarely happens, and the structural mismatch between the two ver
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-Lots of effort was put by researchers to smooth out inaccuracies introduced in those phase.
+Lots of effort was put by researchers to smooth out inaccuracies introduced in those phases.
 - The first work proposes an algorithm to rectify sampled profile by using flow-conservation rules
 - The second work proposes an algorithm to adapt stale profile to newer versions of the program by structurally matching the two versions.
-- The third work is a study on the scale of profile propagation errors within optimization pipeline and does not provide a way to asses profile correctness in practice.
-- The fourth is a practical step towards the unit-testing of profile information, and proposes a way to understand if profile are dropped by optimization passes
-but does not provide a way to understand wrong updates were made by them.
+- The third work is a study on the scale of profile propagation errors within optimization pipelines and does not provide a way to asses profile correctness in practice.
+- The fourth is a practical step towards the unit-testing of profile information, and proposes a way to understand if profile are dropped by optimization passes but does not provide a way to understand if wrong updates were made by them.
 -->
 
 ---
@@ -313,10 +316,13 @@ Can profile propagation accuracy be assessed systematically?
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-So the research question I want to answer is: "Can profile propagation accuracy be assessed systematically?". I intend to develop 2 research directions to answer this question:
+So the research question I want to answer is: "Can profile propagation accuracy be assessed systematically?".
+
+I intend to develop 2 research directions to answer this question:
 - The validation of profile propagation logic using random C programs
 - The coverage improvement of the tested compiler infrastructure, focusing on PGO specifically 
-This would give two main scientific contributions:
+
+The resulting scientific contributions would be:
 - A methodology to systematically asses profile propagation correctness
 - A novel coverage-guided testing strategy targeting profile propagation logic
 -->
@@ -351,15 +357,18 @@ This would give two main scientific contributions:
 <v-clicks>
 
 - Automated **bug triaging** to classify the large number of issues
-- Efficacy is bounded by the **complexity** achievable by program generators
+- Effectiveness is bounded by the **complexity** achievable by program generators
 
 </v-clicks>
 
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-The first direction I intend to explore is the usage of random programs.
-By using off-the-shelf random program generators and exploiting the complexity of generated programs I intend to uncover superficial profile propagation errors as a starting point.
+The first direction I intend to explore is the usage of random programs. This direction 
+- Uses off-the-shelf random program generators to generate structurally complex programs
+- These programs are profiled and optimized obtaining the profile propagated by the compiler
+- The propagated profile is validated to understand if profile propagation errors were made
+
 The framework would include an automatic-bug triaging mechanism to minimize the manual effort needed to analyze the result.
 The effectiveness of this methodology is bounded by the program complexity the generators can achieve. 
 -->
@@ -403,9 +412,10 @@ The effectiveness of this methodology is bounded by the program complexity the g
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-That's why I intend to explore a second direction by designing a novel coverage-guided mechanism which uses program drawn from existing test-suite as a foundation, and consist of:
-- Classical code mutations and a novel profile mutator to explore untested regions of the compiler 
-- A lightweight feedback mechanism that instantiates a coverage metric to guide mutations
+That's why I intend to explore a second direction by designing a novel coverage-guided mechanism which:
+- Uses program drawn from existing test-suite as a foundation
+- These programs would be mutated using code mutation strategies and novel profile mutation strategies
+- The compiler would be instrumented in order to implement a lightweight feedback mechanism that instantiates a novel coverage metric to guide mutations
 This second direction should improve the coverage of the tested compiler's profile propagation logic.
 -->
 
