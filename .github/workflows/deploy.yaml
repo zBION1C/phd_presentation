@@ -33,14 +33,8 @@ jobs:
       - name: Setup @antfu/ni
         run: npm i -g @antfu/ni
 
-      - name: Enable pnpm scripts
-        run: pnpm config set ignore-scripts false
-
       - name: Install dependencies
-        run: nci --ignore-scripts=false
-
-      - name: Install Playwright Chromium
-        run: npx playwright install chromium
+        run: nci
 
       - name: Build Slidev
         run: nr build --base /phd_presentation/
