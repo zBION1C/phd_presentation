@@ -6,16 +6,5 @@
     "build": "slidev build",
     "dev": "slidev --open",
     "export": "slidev export"
-  },
-  "dependencies": {
-    "@slidev/cli": "^52.16.0",
-    "@slidev/theme-default": "latest",
-    "@slidev/theme-seriph": "latest",
-    "slidev-theme-academic": "^2.1.0",
-    "vue": "^3.5.33"
-  },
-  "devDependencies": {
-    "playwright": "^1.61.0",
-    "playwright-chromium": "^1.61.0"
   }
 }
