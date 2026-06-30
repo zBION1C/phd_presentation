@@ -155,7 +155,7 @@ Profile must be **complete** and **accurate** in each phase of its life-cycle
 
 <v-clicks>
 
-- Inaccurate profiles may lead the compiler to make suboptimal optimization decisions.
+- Inaccurate profiles may lead the compiler to make suboptimal optimizations.
 - In practice, each phase hides sources of inaccuracies
   - **Sampling** strategies are inaccurate by nature
   - The dynamic nature of software leads to **stale profiles**
@@ -264,10 +264,10 @@ style else fill:#ffb3ba,color:#fffff
 <v-clicks>
 
 - Recently discovered **regressions** could be attributed to profile mishandling
-- Profile mishandling **nullifies** solutions aiming at correcting profiles in earlier stages  
+- Profile mishandling **nullifies** solutions for inaccuracies at earlier stages  
 - **Non-trivial** solution
-  - What does it mean to correctly propagate profiles?
-  - No immediate correlation between before and after code
+  - What does it mean to **correctly** propagate profiles?
+  - **No correlation** between before and after code
   - **Interaction** between passes needs to be taken into account
   - **Static checks** on control-flow are not enough!
   - **No dedicated tools** to validate propagation logic
@@ -301,20 +301,24 @@ Can profile propagation accuracy be assessed systematically?
 
 <v-clicks>
 
-<!-- - Systematically spot **incorrect** profile updates -->
-<!-- - Accurately **pinpoint** causes of inaccuracies -->
 - A methodological and practical framework to
   - Validate profile information propagation using **random** C programs
   - Improve the PGO logic coverage of the tested compiler via **coverage-guided** testing
+- Expected scientific contributions
+  - A methodology to systematically asses profile propagation correctness
+  - A novel coverage-guided testing strategy targeting profile propagation logic
 
 </v-clicks>
 
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-So the research question I want to answer is: "Can profile propagation accuracy be assessed systematically?". I intend to answer this question by developing a methodological and practical framework that brings two contributions:
+So the research question I want to answer is: "Can profile propagation accuracy be assessed systematically?". I intend to develop 2 research directions to answer this question:
 - The validation of profile propagation logic using random C programs
 - The coverage improvement of the tested compiler infrastructure, focusing on PGO specifically 
+This would give two main scientific contributions:
+- A methodology to systematically asses profile propagation correctness
+- A novel coverage-guided testing strategy targeting profile propagation logic
 -->
 
 ---
@@ -369,7 +373,7 @@ The effectiveness of this methodology is bounded by the program complexity the g
 - A deeper analysis approach, which uses 
   - **Test-suite** programs as a foundation
   - Classic code mutations and **novel** profile mutations strategies
-  - **Feedback** mechanism that instantiates a coverage metric to guide mutations
+  - **Novel Feedback** mechanism that defines a **coverage metric** to guide mutations
   - Profile **validation** to spot profile mishandling
 
 </v-clicks>
@@ -466,6 +470,39 @@ The final impacts of my research consist of
 - Energy savings, thus reduced environmental footprint of large-scale applications
 -->
 
+---
+
+# Takeaway
+
+<v-clicks>
+
+- **Problem**:
+
+  <Highlight iconwidth="0px" class="mb-10px">
+
+  Profile propagation is **not reliably** validated
+
+  </Highlight>
+
+- **Proposal**:
+
+  <Highlight color="#ffdfba" iconwidth="0px" class="mb-10px">
+
+    - Stress-testing via **random programs**
+    - **Coverage-guided exploration** of compiler passes
+    - **Automated validation** of profile correctness
+
+  </Highlight>
+
+- **Contribution**:
+
+  <Highlight color="#baffc9" iconwidth="0px" class="mb-10px">
+
+  **Better** optimizations and **improved** compiler coverage
+
+  </Highlight>
+
+</v-clicks>
 ---
 layout: center
 ---

@@ -8,13 +8,16 @@ defineProps({
     type: String,
     default: "/public/images/exclamation.svg"
   },
-
+  iconwidth: {
+    type: String,
+    default: "50px"
+  },
 })
 </script>
 
 <template>
   <div class="flex flex-row warning-box">
-    <img :src="icon" width=50px/>
+    <img :src="icon" :width="iconwidth"/>
     <div class="definition-content">
       <slot />
     </div>
