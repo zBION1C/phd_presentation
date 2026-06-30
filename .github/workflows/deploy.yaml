@@ -32,8 +32,6 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm exec playwright install chromium
-
       - run: pnpm exec slidev build --base /phd_presentation/
 
       - uses: actions/configure-pages@v5
