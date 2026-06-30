@@ -1,4 +1,5 @@
 ---
+theme: default
 layout: cover
 colorSchema: light
 transition: slide-left
@@ -21,6 +22,8 @@ fonts:
 </span>
 </div>
 
+<SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
+
 ---
 
 # Who Am I ?
@@ -38,6 +41,8 @@ fonts:
   <img v-show="$clicks>=2" src="/public/images/trx.png" width="20%">
   <img v-show="$clicks>=3" src="/public/images/llvm.jpg" width="20%">
 </div>
+
+<SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
 - I am very passionate cybersecurity and computer science.
@@ -61,6 +66,8 @@ fonts:
   - Perfect for high-load applications
 
 </v-clicks>
+
+<SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
 - As of today, performance is a crucial property of software. For large scale applications
@@ -100,6 +107,8 @@ even a 1% performance improvement can save millions of dollars annually.
 
 </div>
 
+<SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
+
 ---
 
 # Profile Life-cycle
@@ -122,6 +131,8 @@ even a 1% performance improvement can save millions of dollars annually.
 <div v-show="$clicks === 4" class="flex justify-center align-items mt-20px">
   <img src="/public/images/profile/usage.svg" width="400px">
 </div>
+
+<SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
 Looking at the PGO workflow, we can isolate three main phases of the profile life-cycle
@@ -152,6 +163,8 @@ Profile must be **complete** and **accurate** in each phase of its life-cycle
 
 </v-clicks>
 
+<SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
+
 <!--
 By **accurate** I mean that the profile has to accurately reflect the actual workload experienced by the binary when executed in the production environment.
 Bad profiles could result in bad optimization decisions, leading ultimately to a sub-optimal program generation
@@ -179,6 +192,8 @@ In practice this rarely happens, and the structural mismatch between the two ver
 [^stale]: Amir Ayupov, Maksim Panchenko, and Sergey Pupyrev. “Stale Profile Matching”.
 [^propagation]: Youfeng Wu. “Accuracy of Profile Maintenance in Optimizing Compilers”.
 [^unittesting]: Profile Information Propagation Unittesting: https://discourse.llvm.org/t/rfc-profile-information-propagation-unittesting/73595
+
+<SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
 Lots of effort was put by researchers to smooth out inaccuracies introduced in those phase.
@@ -240,6 +255,8 @@ style else fill:#ffb3ba,color:#fffff
 </div>
 </div>
 
+<SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
+
 ---
 
 # Profile Mishandling Research Gap
@@ -262,6 +279,8 @@ style else fill:#ffb3ba,color:#fffff
 Profile information is **transformed** together with the program, but unlike the program itself, its correctness cannot be directly observed.
 
 </Highlight>
+
+<SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
 The problem of profile mishandling remains largely unstudied, even though solving it is of critical importance because:
@@ -290,6 +309,8 @@ Can profile propagation accuracy be assessed systematically?
 
 </v-clicks>
 
+<SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
+
 <!--
 So the research question I want to answer is: "Can profile propagation accuracy be assessed systematically?". I intend to answer this question by developing a methodological and practical framework that brings two contributions:
 - The validation of profile propagation logic using random C programs
@@ -299,7 +320,6 @@ So the research question I want to answer is: "Can profile propagation accuracy 
 ---
 
 # Stress-Test approach
-
 
 <v-clicks depth=2>
 
@@ -331,6 +351,8 @@ So the research question I want to answer is: "Can profile propagation accuracy 
 
 </v-clicks>
 
+<SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
+
 <!--
 The first direction I intend to explore is the usage of random programs.
 By using off-the-shelf random program generators and exploiting the complexity of generated programs I intend to uncover superficial profile propagation errors as a starting point.
@@ -341,7 +363,6 @@ The effectiveness of this methodology is bounded by the program complexity the g
 ---
 
 # Coverage-Guided Testing 
-
 
 <v-clicks depth=2>
 
@@ -375,6 +396,8 @@ The effectiveness of this methodology is bounded by the program complexity the g
 
 </v-click>
 
+<SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
+
 <!--
 That's why I intend to explore a second direction by designing a novel coverage-guided mechanism which uses program drawn from existing test-suite as a foundation, and consist of:
 - Classical code mutations and a novel profile mutator to explore untested regions of the compiler 
@@ -404,6 +427,8 @@ This second direction should improve the coverage of the tested compiler's profi
 
 </div>
 
+<SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
+
 <!--
 I will evaluate the proposed methodologies on the LLVM compiler infrastructure being open source but also used in industry.
 The evaluation will be performed by checking if
@@ -431,6 +456,8 @@ The evaluation will be performed by checking if
   <Card v-show="$clicks>=3" content="🌱Energy Savings" color="none" width=""/>
 
 </div>
+
+<SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
 The final impacts of my research consist of
