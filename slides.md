@@ -39,6 +39,13 @@ fonts:
   <img v-show="$clicks>=3" src="/public/images/llvm.jpg" width="20%">
 </div>
 
+<!--
+- I am very passionate cybersecurity and computer science.
+- I participated in the cyberchallenge program, reaching the final attack and defense competition.
+- I participated at various online CTF challenges together with the TRX team, which is the official sapienza CTF team.
+- I contributed to the LLVM compiler infrastructure by submitting reports of previously undiscovered bugs as part of my master thesis work.
+-->
+
 ---
 
 # Performance is Critical
@@ -56,12 +63,13 @@ fonts:
 </v-clicks>
 
 <!--
-As of today, performance is a crucial property of software, due to the rise
-of resource-intensive applications like warehouse-scale or AI applications.
-Profile-Guided Optimization, among other optimization strategies, stands-out for achieving great performance.
-- It consists of tailoring the optimization process around the actual workload of the application
-- And it does so by using a profile for the application, which represents what regions of code were touched during execution
-- So it eliminates the need to infer such information, which were computed by classical optimization
+- As of today, performance is a crucial property of software. For large scale applications
+even a 1% performance improvement can save millions of dollars annually.
+
+- Profile-Guided Optimization, among other optimization strategies, stands-out for achieving great performance.
+- The idea behind it is the tailoring of the optimization process around the workload of the application
+- It does so by using a profile for the application, which represents the execution frequencies of program regions
+- This eliminates the need to infer such information, which were computed by classical optimization in order to make optimization decisions
 - It is perfect for high-load applications, since complete profiles can be collected
 -->
 
@@ -292,22 +300,34 @@ So the research question I want to answer is: "Can profile propagation accuracy 
 
 # Stress-Test approach
 
+
+<v-clicks depth=2>
+
 - Stress-testing profile propagation logic with randomly generated programs
   - Uses **off-the-shelf** random program generators
-  - Automated **bug triaging** to classify the large number of issues
-- Efficacy is bounded by the **complexity** achievable by program generators
+  - Random program are optimized to get the **propagated profile**
+  - Profile **validation** to spot profile mishandling
+
+</v-clicks>
+
+<div v-show="$clicks === 1" class="flex justify-center align-items mt-20px mb-20px ">
+  <img src="/public/images/blackbox/blackbox0.svg">
+</div>
+<div v-show="$clicks === 2" class="flex justify-center align-items mt-20px mb-20px ">
+  <img src="/public/images/blackbox/blackbox1.svg">
+</div>
+<div v-show="$clicks === 3" class="flex justify-center align-items mt-20px mb-20px">
+  <img src="/public/images/blackbox/blackbox2.svg" >
+</div>
+<div v-show="$clicks >= 4" class="flex justify-center align-items mt-20px mb-20px">
+  <img src="/public/images/blackbox/blackbox3.svg">
+</div>
+
 
 <v-clicks>
 
-<div v-show="$clicks === 1" class="flex justify-center align-items mt-70px">
-  <img src="/public/images/blackbox/blackbox1.svg">
-</div>
-<div v-show="$clicks === 2" class="flex justify-center align-items mt-70px">
-  <img src="/public/images/blackbox/blackbox2.svg" >
-</div>
-<div v-show="$clicks === 3" class="flex justify-center align-items mt-70px">
-  <img src="/public/images/blackbox/blackbox3.svg">
-</div>
+- Automated **bug triaging** to classify the large number of issues
+- Efficacy is bounded by the **complexity** achievable by program generators
 
 </v-clicks>
 
@@ -322,27 +342,38 @@ The effectiveness of this methodology is bounded by the program complexity the g
 
 # Coverage-Guided Testing 
 
+
+<v-clicks depth=2>
+
 - A deeper analysis approach, which uses 
-  - Classic code mutations strategies and **novel** profile mutations strategies
+  - **Test-suite** programs as a foundation
+  - Classic code mutations and **novel** profile mutations strategies
   - **Feedback** mechanism that instantiates a coverage metric to guide mutations
-- Exposes **untested** regions of the compiler to uncover deeper issues
+  - Profile **validation** to spot profile mishandling
 
-<v-clicks>
+</v-clicks>
 
-<div v-show="$clicks === 1" class="flex justify-center align-items mt-10px">
+<div v-show="$clicks === 1" class="flex justify-center align-items mt-20px mb-20px">
+  <img src="/public/images/greybox/greybox0.svg">
+</div>
+<div v-show="$clicks === 2" class="flex justify-center align-items mt-20px mb-20px">
   <img src="/public/images/greybox/greybox1.svg">
 </div>
-<div v-show="$clicks === 2" class="flex justify-center align-items mt-10px">
+<div v-show="$clicks === 3" class="flex justify-center align-items mt-20px mb-20px">
   <img src="/public/images/greybox/greybox2.svg" >
 </div>
-<div v-show="$clicks === 3" class="flex justify-center align-items mt-10px">
+<div v-show="$clicks === 4" class="flex justify-center align-items mt-20px mb-20px">
   <img src="/public/images/greybox/greybox3.svg">
 </div>
-<div v-show="$clicks === 4" class="flex justify-center align-items mt-10px">
+<div v-show="$clicks >= 5" class="flex justify-center align-items mt-20px mb-20px">
   <img src="/public/images/greybox/greybox4.svg">
 </div>
 
-</v-clicks>
+<v-click>
+
+- Exposes **untested** regions of the compiler to uncover deeper issues
+
+</v-click>
 
 <!--
 That's why I intend to explore a second direction by designing a novel coverage-guided mechanism which uses program drawn from existing test-suite as a foundation, and consist of:
