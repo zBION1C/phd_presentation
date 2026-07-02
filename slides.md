@@ -215,7 +215,7 @@ Lots of effort was put by researchers to smooth out inaccuracies introduced in t
 
 <div style="display:flex; flex-direction:column; justify-content:space-evenly; align-items:center;">
 
-```c{all}
+```c {all}{class:'!children:text-[15px]'}
 // Before pass
 if (x > 0) { // Then branch taken 80 times
     handle_positive(x) 🔥
@@ -224,7 +224,7 @@ if (x > 0) { // Then branch taken 80 times
 }
 ```
 
-```mermaid {theme: 'neutral', scale: 0.8}
+```mermaid {theme: 'neutral', scale: 1}
 graph TD
 entry(if x > 0) -->|"T:80%"| else("handle_positive(x)")
 entry -->|"F:20%"| then("handle_negative(x)")
@@ -237,7 +237,7 @@ style else fill:#ffb3ba,color:#fffff
 
 <div v-click style="display:flex; flex-direction:column; justify-content:space-evenly; align-items:center;" >
 
-```c{all}
+```c {all}{class:'!children:text-[15px]'}
 // After pass
 if (x <= 0) { // Then branch taken 80 times
     handle_negative(x) 🔥
@@ -246,7 +246,7 @@ if (x <= 0) { // Then branch taken 80 times
 }
 ```
 
-```mermaid {theme: 'neutral', scale: 0.8}
+```mermaid {theme: 'neutral', scale: 1}
 graph TD
 entry(if x <= 0) -->|"T:80%"| else("handle_negative(x)")
 entry -->|"F:20%"| then("handle_positive(x)")
@@ -352,7 +352,6 @@ The resulting scientific contributions would be:
 <div v-show="$clicks >= 4" class="flex justify-center align-items mt-20px mb-20px">
   <img src="/public/images/blackbox/blackbox3.svg">
 </div>
-
 
 <v-clicks>
 
