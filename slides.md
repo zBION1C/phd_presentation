@@ -335,7 +335,7 @@ The resulting scientific contributions would be:
 
 - Stress-testing profile propagation logic with randomly generated programs
   - Uses **off-the-shelf** random program generators
-  - Random program are optimized to get the **propagated profile**
+  - Random programs are optimized with PGO to get the **propagated profile**
   - Profile **validation** to spot profile mishandling
 
 </v-clicks>
