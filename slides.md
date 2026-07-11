@@ -291,7 +291,7 @@ Now suppose the program has an associated profile indicating that the *then* bra
 
 Next, imagine a fictional optimization pass that simply flips the condition of the `if` statement. The transformed program remains semantically equivalent because the contents of the two branches are swapped accordingly. However, the optimization forgets to update the associated profile.
 
-As a result, the profile no longer matches the transformed program. The compiler now incorrectly believes that `handle_negative` is the hot path and optimizes for the wrong execution scenario, ultimately producing a less efficient binary.
+As a result, the profile no longer matches the original execution behavior. The compiler now incorrectly believes that `handle_negative` is the hot path and optimizes for the wrong execution scenario, ultimately producing a less efficient binary.
 -->
 
 ---
@@ -532,7 +532,8 @@ The expected impact of this research is twofold.
 - First, it will provide compiler developers with new analysis tools to assess the correctness of their PGO implementations and identify potential profile propagation issues.
 - Second, by improving the reliability of profile-guided optimization, this work can enable more effective optimized binaries.
 
-This translates into performance improvements for users and, especially in large-scale deployments, can provide both economic benefits through reduced computational costs and environmental benefits through improved energy efficiency.
+This translates into performance improvements for users and, especially in large-scale deployments,
+can provide both economic benefits through reduced computational costs and environmental benefits through improved energy efficiency.
 -->
 
 ---
@@ -570,5 +571,6 @@ This translates into performance improvements for users and, especially in large
 </v-clicks>
 
 <!--
-1. Based on discussions with LLVM developers, profile propagation validation is currently performed in a best-effort manner, or in some cases not systematically performed, due to the lack of dedicated mechanisms to verify it.
+1. Based on discussions with LLVM developers, profile propagation validation is currently performed in a best-effort manner,
+or in some cases not systematically performed, due to the lack of dedicated mechanisms to verify it.
 -->
