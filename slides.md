@@ -24,6 +24,10 @@ fonts:
 
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
+<!--
+I'm here to present my proposal on a problem that arise in advanced optimization scenarios
+-->
+
 ---
 
 # Who Am I ?
@@ -45,10 +49,12 @@ fonts:
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-- I am very passionate cybersecurity and computer science.
-- I participated in the cyberchallenge program, reaching the final attack and defense competition.
-- I participated at various online CTF challenges together with the TRX team, which is the official sapienza CTF team.
-- I contributed to the LLVM compiler infrastructure by submitting reports of previously undiscovered bugs as part of my master thesis work.
+Over the past two years, I have built a strong background in cybersecurity by completing my Master's degree in Cybersecurity.
+During this time, I also took part in the CyberChallenge program, where I reached the final Attack & Defense competition,
+and I participated in several online Capture The Flag competitions as a member of TRX, Sapienza's official CTF team.
+
+Although my primary focus was cybersecurity, my Master's thesis introduced me to the field of compilers, which quickly became a strong research interest.
+As part of my thesis, I contributed to the LLVM compiler infrastructure by identifying and reporting several previously undiscovered bugs.
 -->
 
 ---
@@ -58,26 +64,27 @@ fonts:
 <v-clicks>
 
 - Achieving optimal performance is of critical importance today.
-  - A 1% performance improvement can save millions of dollars annually in large-scale deployments.
-- **Profile-Guided Optimization** is a way to achieve great performance
-  - Optimization process **tailored** to the workload of the compiled program
+  - A 1% performance improvement can results in a substantial economical saving for warehouse-scale deployments.
+- Profile-Guided Optimization (PGO) tailors compiler optimizations to the application's measured workload.
   - **Profile** = Execution frequencies of program regions
-  - Eliminates the need to infer such information
-  - Perfect for high-load applications
+  - Enables more informed optimization decisions based on real execution behavior.
+  - Particularly effective for **performance-critical applications** where representative profiles can be collected.
 
 </v-clicks>
 
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-- As of today, performance is a crucial property of software. For large scale applications
-even a 1% performance improvement can save millions of dollars annually.
+Today, software performance is more important than ever. In large warehouse-scale deployments, even a small performance improvement can translate into significant savings in infrastructure and operating costs.
 
-- Profile-Guided Optimization, among other optimization strategies, stands-out for achieving great performance.
-- The idea behind it is the tailoring of the optimization process around the workload of the application
-- It does so by using a profile for the application, which represents the execution frequencies of program regions
-- This eliminates the need to infer such information, which were computed by classical optimization in order to take decisions
-- It is perfect for high-load applications, since complete and robust profiles can be collected
+One of the most effective techniques for improving performance is **Profile-Guided Optimization**, or PGO.
+
+The main idea is simple: instead of applying optimizations based only on general heuristics, the compiler tailors its optimization decisions to the way the application actually behaves during execution.
+
+To do this, it relies on a **profile**, which records how frequently different parts of the program are executed under a representative workload.
+This information allows the compiler to make more informed optimization decisions based on the application's real execution behavior.
+
+Because of this, PGO is particularly attractive for performance-critical applications, where representative execution profiles can be collected and the additional optimization effort is well justified.
 -->
 
 ---
@@ -115,10 +122,10 @@ even a 1% performance improvement can save millions of dollars annually.
 
 <v-clicks depth=2>
 
-- Profiles traverse three main phases within the PGO workflow
-  - **Collection**: The profile is collected and persisted as a file
-  - **Mapping**: The profile is represented as **metadata** attached to program constructs
-  - **Usage**: The metadata is used to guide optimizing transformations
+- Within the PGO workflow, profiles go through three main phases.
+  - **Collection:** **execution behavior** is measured on a representative workload.
+  - **Mapping:** profile information is associated with the corresponding program constructs as **metadata**.
+  - **Usage:** the compiler uses this metadata to guide **optimization decisions**.
 
 </v-clicks>
 
@@ -135,10 +142,11 @@ even a 1% performance improvement can save millions of dollars annually.
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-Looking at the PGO workflow, we can isolate three main phases of the profile life-cycle
-- Collection, where the profile is collected and persisted as a file for later usage. 
-- Mapping, in which the profile file is read and profile metadata is generated and attached to program constructs
-- Usage, where the program associated with profile metadata is optimized and the profile is used to guide optimization decisions
+To better understand where my research fits, let's look at the life cycle of a profile within the PGO workflow.
+We can identify three main phases.
+- The first is **collection**, where the execution behavior of the application is measured while running a representative workload.
+- The second is **mapping**. Here, the collected profile information is associated with the corresponding program constructs as metadata. For example, the compiler can know how many times a function or a basic block was executed.
+- Finally, we have **usage**, where the compiler relies on this metadata to guide its optimization decisions and generate more efficient code.
 -->
 
 ---
@@ -166,17 +174,19 @@ Profile must be **complete** and **accurate** in each phase of its life-cycle
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-There are some practical obstacles when applying PGO. For an ideal PGO application:
-The profile must be complete and accurate in each phase of its life-cycle
+Now that we've seen the profile life cycle, let's look at the practical challenges of applying Profile-Guided Optimization.
 
-By **accurate** I mean that the profile has to accurately reflect the actual workload experienced by the binary when executed in the production environment.
-Indeed inaccurate profiles could result in bad optimization decisions, leading ultimately to a sub-optimal program generation.
+Ideally, the profile should remain both **complete** and **accurate** throughout its entire life cycle.
+By *accurate*, I mean that it should faithfully represent how the application behaves under its target workload.
+Otherwise, the compiler may make optimization decisions based on misleading information, resulting in less efficient code.
 
-Nevertheless, in practice some sources of inaccuracies are hidden within the PGO workflow itself
-- Sampling collection strategies are inaccurate by nature, leading to inaccurate profiles collected
-- The dynamic nature of software leads to stale profiles. Before we assumed that the program version on which we collected the profile is the same as the program version on which we want to use the profile.
-In practice this rarely happens, and the structural mismatch between the two versions make some part of the profile unusable.
-- Finally, optimization pipeline themselves need to carefully update profile metadata after code transformations, so that downstream passes could still benefit from an accurate profile.
+In practice, however, every phase of the profile life cycle can introduce inaccuracies.
+- During **collection**, many profiling techniques rely on sampling, which is inherently an approximation and therefore cannot capture the program's behavior perfectly.
+- Over time, profiles can also become **stale**. As software evolves, a profile collected for one version of the program may no longer accurately represent a newer version, reducing its usefulness.
+- Finally, inaccuracies can also be introduced during **optimization** itself. As compiler passes transform the program, they must update the associated profile metadata to keep it consistent with the transformed code.
+If this propagation is incorrect, subsequent optimization passes will rely on inaccurate profile information, even if the original profile was perfectly accurate.
+
+There are various works in literature that address the first two problems, while the problem that lies within the usage phase remains largely unstudied.
 -->
 
 ---
@@ -185,10 +195,10 @@ In practice this rarely happens, and the structural mismatch between the two ver
 
 <v-clicks depth=2>
 
-- Lots of effort to solve these problems
-  - [^profi] Proposes a rectification algorithm to rectify sampled profiles 
-  - [^stale] Proposes an algorithm to adapt stale profiles to newer program versions 
-  - [^propagation], [^unittesting] only partially address failures in metadata propagation
+- Significant research effort has addressed these challenges.
+  - [^profi] Rectifies inaccuracies introduced by **sampling**.
+  - [^stale] Adapts **stale profiles** to newer versions of a program.
+  - [^propagation], [^unittesting] Started addressing errors in **profile metadata propagation**, but only partially.
 
 </v-clicks>
 
@@ -200,11 +210,16 @@ In practice this rarely happens, and the structural mismatch between the two ver
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-Lots of effort was put by researchers to smooth out inaccuracies introduced in those phases.
-- The first work proposes an algorithm to rectify sampled profile by using flow-conservation rules
-- The second work proposes an algorithm to adapt stale profile to newer versions of the program by structurally matching the two versions.
-- The third work is a study on the scale of profile propagation errors within optimization pipelines and does not provide a way to asses profile correctness in practice.
-- The fourth is a practical step towards the unit-testing of profile information, and proposes a way to understand if profile are dropped by optimization passes but does not provide a way to understand if wrong updates were made by them.
+Several research efforts have tackled the sources of inaccuracies we have just discussed.
+
+The first work proposes a technique to make sampled profiles more accurate,
+while the second adapts profiles so they can still be used after the software has evolved.
+
+The last two works instead started looking at the problem of **profile metadata propagation** during optimization.
+They highlighted that optimization passes may fail to preserve profile information correctly and proposed initial approaches to detect cases where metadata is accidentally lost.
+However, they do not address the more challenging problem of determining whether the propagated metadata is still **correct** after a transformation.
+In other words, metadata may still be present, but no longer accurately reflect the execution behavior of the transformed program.
+
 -->
 
 ---
@@ -266,30 +281,38 @@ style else fill:#ffb3ba,color:#fffff
 
 <v-clicks>
 
-- Recently discovered **regressions** could be attributed to profile mishandling
-- Profile mishandling **nullifies** solutions for inaccuracies at earlier stages  
-- **Non-trivial** solution
-  - What does it mean to **correctly** propagate profiles?
-  - **No correlation** between before and after code
-  - **Interaction** between passes needs to be taken into account
-  - **Static checks** on control-flow are not enough!
-  - **No dedicated tools** to validate propagation logic
+- Recent studies have linked performance regressions to **incorrect profile propagation**. [^regressions]
+- It can **undermine** the benefits of accurate profile collection and adaptation.
+- Ensuring correct profile propagation is **non-trivial**.
+  - There is no obvious correlation between the original and transformed code.
+  - Compiler passes **interact**, so testing passes in isolation is not enough.
+  - There are **no dedicated tools** to validate profile propagation.
 
 </v-clicks>
 
+
 <Highlight v-click class="mt-10px mb-10px">
 
-Profile information is **transformed** together with the program, but unlike the program itself, its correctness cannot be directly observed.
+Profile information is **transformed** together with the program, but its correctness cannot be directly observed.
 
 </Highlight>
 
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
+[^regressions]: Performance Regression in LLVM - A SPEC CPU 2017 Study: https://discourse.llvm.org/t/performance-regression-in-llvm-a-spec-cpu-2017-study/84812
+
 <!--
-The problem of profile mishandling remains largely unstudied, even though solving it is of critical importance because:
-- Recent insights shows that performance regressions could be attributed to profile mishandling
-- Profile mishandling nullifies effort to correct profiles in earlier stages of the life-cycle, due to the profile degrading incrementally as the pipeline is applied
-- Not so easy to spot profile propagation errors.
+This brings us to the research gap that motivates my work.
+
+Recent studies have shown that some performance regressions can be traced back to incorrect profile propagation during compilation. In other words, even if we start with a high-quality profile, mistakes introduced by optimization passes can gradually reduce its accuracy.
+
+As a result, the benefits of all the effort spent collecting and improving the profile can be progressively lost as the optimization pipeline executes.
+
+Addressing this problem, however, is far from straightforward.
+
+When compiler passes transform the program, there is often no direct correspondence between the original code and the transformed code, making it difficult to determine how profile information should be updated. Moreover, optimization passes interact with one another, so an incorrect update performed by one pass can affect all subsequent passes.
+
+Despite the importance of this problem, there are currently no dedicated tools to systematically verify that profile information is propagated correctly throughout the optimization pipeline.
 -->
 
 ---
@@ -304,27 +327,30 @@ Can profile propagation accuracy be assessed systematically?
 
 <v-clicks>
 
-- A methodological and practical framework to
-  - Validate profile information propagation using **random** C programs
-  - Improve the PGO logic coverage of the tested compiler via **coverage-guided** testing
+- A framework to systematically validate profile propagation.
+  - Generate **synthetic test programs** with automatically verifiable profile behavior.
+  - Drive test generation using **coverage-guided techniques** to exercise profile propagation logic.
 - Expected scientific contributions
-  - A methodology to systematically asses profile propagation correctness
-  - A novel coverage-guided testing strategy targeting profile propagation logic
+  - A methodology to systematically assess profile propagation correctness.
+  - A coverage-guided testing strategy for improving the validation of profile propagation.
 
 </v-clicks>
 
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-So the research question I want to answer is: "Can profile propagation accuracy be assessed systematically?".
+This brings me to the central research question of my proposal:
 
-I intend to develop 2 research directions to answer this question:
-- The validation of profile propagation logic using random C programs
-- The coverage improvement of the tested compiler infrastructure, focusing on PGO specifically 
+Can profile propagation accuracy be assessed systematically?
 
-The resulting scientific contributions would be:
-- A methodology to systematically asses profile propagation correctness
-- A novel coverage-guided testing strategy targeting profile propagation logic
+To answer this question, I propose to develop a framework for validating profile propagation throughout the optimization pipeline.
+- The first research direction is the generation of synthetic test programs whose expected profile behavior can be automatically verified after compiler transformations.
+- The second direction builds on this idea by using coverage-guided testing to automatically generate and prioritize tests that exercise as much profile propagation logic as possible.
+In this way, coverage-guided testing is not an objective on its own, but a means to validate a broader range of compiler transformations.
+
+Together, these two directions lead to two main scientific contributions:
+- a methodology for systematically assessing profile propagation correctness,
+- and a novel coverage-guided testing strategy specifically designed to improve the validation of profile propagation.
 -->
 
 ---
@@ -333,10 +359,10 @@ The resulting scientific contributions would be:
 
 <v-clicks depth=2>
 
-- Stress-testing profile propagation logic with randomly generated programs
-  - Uses **off-the-shelf** random program generators
-  - Random programs are optimized with PGO to get the **propagated profile**
-  - Profile **validation** to spot profile mishandling
+- Stress-test profile propagation using **synthetic test programs**
+  - Generate structurally complex programs using **off-the-shelf** test generators.
+  - Optimize them with PGO and construct the **ground-truth profile**.
+  - Compare the propagated profile against the ground truth for **validation**.
 
 </v-clicks>
 
@@ -355,21 +381,28 @@ The resulting scientific contributions would be:
 
 <v-clicks>
 
-- Automated **bug triaging** to classify the large number of issues
-- Effectiveness is bounded by the **complexity** achievable by program generators
+- Automated **bug triaging** to identify the responsible compiler component.
+- Preliminary results: **multiple confirmed LLVM bugs**, among the first reported for profile propagation.
 
 </v-clicks>
 
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-The first direction I intend to explore is the usage of random programs. This direction 
-- Uses off-the-shelf random program generators to generate structurally complex programs
-- These programs are profiled and optimized obtaining the profile propagated by the compiler
-- The propagated profile is validated to understand if profile propagation errors were made
+The first research direction builds upon the work I started during my Master's thesis.
 
-The framework would include an automatic-bug triaging mechanism to minimize the manual effort needed to analyze the result.
-The effectiveness of this methodology is bounded by the program complexity the generators can achieve. 
+The idea is to stress-test profile propagation using automatically generated **synthetic test programs**.
+
+For each generated program, the compiler first performs Profile-Guided Optimization, producing a profile that has been propagated throughout the optimization pipeline.
+
+Then, instead of trusting that propagated profile, we independently execute the optimized program to reconstruct its actual execution profile. This gives us a **ground truth** describing how the transformed program really behaves.
+
+Finally, we compare this ground truth with the profile propagated by the compiler. Any discrepancy indicates that profile information was not propagated correctly during optimization.
+
+Since this process can uncover a large number of issues, the framework also requires an automated triaging mechanism to identify which compiler transformation is responsible for introducing each propagation error.
+
+I have already prototyped this approach during my Master's thesis, where it led to the discovery of several previously unknown profile propagation bugs in LLVM.
+These bugs were confirmed by the LLVM developers and, to the best of my knowledge, were among the first reported specifically for profile propagation, providing encouraging evidence of the effectiveness of this methodology.
 -->
 
 ---
@@ -378,11 +411,11 @@ The effectiveness of this methodology is bounded by the program complexity the g
 
 <v-clicks depth=2>
 
-- A deeper analysis approach, which uses 
-  - **Test-suite** programs as a foundation
-  - Classic code mutations and **novel** profile mutations strategies
-  - **Novel Feedback** mechanism that defines a **coverage metric** to guide mutations
-  - Profile **validation** to spot profile mishandling
+- Extend the stress-test approach with **coverage-guided testing**
+  - Start from existing compiler **test suites**.
+  - Apply classic code mutations and **novel profile-aware mutations**.
+  - Guide mutations using a **coverage metric** targeting profile propagation logic.
+  - Validate propagated profiles to detect profile mishandling.
 
 </v-clicks>
 
@@ -404,18 +437,28 @@ The effectiveness of this methodology is bounded by the program complexity the g
 
 <v-click>
 
-- Exposes **untested** regions of the compiler to uncover deeper issues
+- Enables exploration of **previously untested** profile propagation logic.
 
 </v-click>
 
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-That's why I intend to explore a second direction by designing a novel coverage-guided mechanism which:
-- Uses program drawn from existing test-suite as a foundation
-- These programs would be mutated using code mutation strategies and novel profile mutation strategies
-- The compiler would be instrumented in order to implement a lightweight feedback mechanism that instantiates a novel coverage metric to guide mutations
-This second direction should improve the coverage of the tested compiler's profile propagation logic.
+While the stress-test approach is effective, its coverage ultimately depends on the complexity of the generated synthetic programs.
+
+To overcome this limitation, I propose a second, complementary research direction based on coverage-guided testing.
+
+The idea is inspired by existing compiler testing methodologies, where a set of carefully designed test programs serves as a starting point.
+Rather than generating programs from scratch, these existing tests are automatically mutated to explore new compiler behaviors.
+
+In my case, I plan to combine traditional code mutations with novel profile-aware mutation strategies, specifically designed to exercise profile propagation logic.
+
+The mutations are guided by a dedicated coverage metric, implemented by instrumenting the compiler, that measures how much of the profile propagation logic has been exercised.
+This allows the framework to continuously generate new tests that target previously unexplored behaviors.
+
+The resulting test cases are then validated using the same profile validation methodology introduced in the previous approach.
+
+Beyond improving the validation of profile propagation, this methodology could also provide a foundation for applying coverage-guided testing to other compiler testing problems.
 -->
 
 ---
@@ -425,10 +468,10 @@ This second direction should improve the coverage of the tested compiler's profi
 <v-clicks depth=2>
 
 - **LLVM** compiler infrastructure as evaluation target
-- Can the proposed methodologies:
-  - Find new **bugs**? If so, how many?
-  - **Improve the performance** of the generated binaries?
-  - Improve optimization pass coverage within LLVM?
+- Evaluate whether the proposed methodologies can:
+  - Detect new **profile mishandling bugs**.
+  - Identify bugs with a measurable **performance impact**.
+  - Improve the exploration of LLVM's **profile propagation logic**.
 
 </v-clicks>
 
@@ -443,11 +486,17 @@ This second direction should improve the coverage of the tested compiler's profi
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-I will evaluate the proposed methodologies on the LLVM compiler infrastructure being open source but also used in industry.
-The evaluation will be performed by checking if
-- I can find new bugs, and if so how many. 
-- Fixing those bugs lead to a performance improvement of generated binaries
-- Code and profile mutations lead to an improvement in the coverage of optimization passes
+The proposed methodologies will be evaluated on the **LLVM compiler infrastructure**.
+
+LLVM is a widely adopted compiler framework, used in industrial environments by companies such as Google and Apple, while also being extensively used by researchers and the open-source community to develop and evaluate new compiler techniques.
+
+The evaluation will focus on three main aspects.
+
+First, whether the proposed approaches can discover new **profile mishandling bugs** in LLVM.
+
+Second, whether fixing these issues leads to a measurable improvement in the performance of the generated binaries.
+
+Finally, whether the proposed testing methodologies can improve the exploration of profile propagation logic, allowing us to exercise compiler behaviors that are otherwise difficult to reach.
 -->
 
 ---
@@ -456,9 +505,8 @@ The evaluation will be performed by checking if
 
 <v-clicks>
 
-- **Analysis tools** for compiler developers, to assess their PGO implementations
-- **Faster** PGO binaries for the user
-- **Energy savings** due to optimal binaries
+- **Analysis tools** to help compiler developers assess and improve PGO implementations.
+- **More effective PGO** leading to faster binaries and reduced execution costs.
 
 </v-clicks>
 
@@ -466,17 +514,21 @@ The evaluation will be performed by checking if
 
   <Card v-show="$clicks>=1" content="🛠️Analysis Tools" color="none" width=""/> 
   <Card v-show="$clicks>=2" content="🚀Faster Binaries" color="none" width=""/>
-  <Card v-show="$clicks>=3" content="🌱Energy Savings" color="none" width=""/>
+  <Card v-show="$clicks>=2" content="🌱Energy Savings" color="none" width=""/>
 
 </div>
 
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-The final impacts of my research consist of
-- New means for compiler developers to asses their PGO implementations
-- Faster PGO binaries for the users
-- Energy savings, thus reduced environmental footprint of large-scale applications
+The expected impact of this research is twofold.
+
+First, it will provide compiler developers with new analysis tools to assess the correctness of their PGO implementations and identify potential profile propagation issues.
+
+Second, by improving the reliability of profile-guided optimization, this work can enable more effective optimized binaries.
+This translates into performance improvements for users and, especially in large-scale deployments, can provide both economic benefits through reduced computational costs and environmental benefits through improved energy efficiency.
+
+Moreover, this research direction is aligned with industrial interests, as the reliability and effectiveness of PGO are relevant topics also explored in collaboration between academic and industrial partners, including Google.
 -->
 
 ---
@@ -497,7 +549,7 @@ The final impacts of my research consist of
 
   <Highlight color="#ffdfba" iconwidth="0px" class="mb-10px">
 
-    - Stress-testing via **random programs**
+    - Stress-testing via **synthetic test**
     - **Coverage-guided exploration** of compiler passes
     - **Automated validation** of profile correctness
 
@@ -512,9 +564,7 @@ The final impacts of my research consist of
   </Highlight>
 
 </v-clicks>
----
-layout: center
----
 
-# Thanks for the attention!
-## Questions?
+<!--
+Based on discussions with LLVM developers, profile propagation validation is currently performed in a best-effort manner, or in some cases not systematically performed, due to the lack of dedicated mechanisms to verify it.
+-->
