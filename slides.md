@@ -498,11 +498,9 @@ Beyond improving the validation of profile propagation, this methodology could a
 
 <!--
 The proposed methodologies will be evaluated on the **LLVM compiler infrastructure**.
-
-LLVM is a widely adopted compiler framework, used in industrial environments by companies such as Google and Apple, while also being extensively used by researchers and the open-source community to develop and evaluate new compiler techniques.
+As it's a widely adopted compiler framework, used in industrial environments by companies such as Google and Apple.
 
 The evaluation will focus on three main aspects.
-
 - First, whether the proposed approaches can discover new **profile mishandling bugs** in LLVM.
 - Second, whether fixing these issues leads to a measurable improvement in the performance of the generated binaries.
 - Finally, whether the proposed testing methodologies can improve the exploration of profile propagation logic, allowing us to exercise compiler behaviors that are otherwise difficult to reach.
@@ -523,7 +521,6 @@ The evaluation will focus on three main aspects.
 
   <Card v-show="$clicks>=1" content="🛠️Analysis Tools" color="none" width=""/> 
   <Card v-show="$clicks>=2" content="🚀Faster Binaries" color="none" width=""/>
-  <Card v-show="$clicks>=2" content="🌱Energy Savings" color="none" width=""/>
 
 </div>
 
@@ -534,9 +531,8 @@ The expected impact of this research is twofold.
 
 - First, it will provide compiler developers with new analysis tools to assess the correctness of their PGO implementations and identify potential profile propagation issues.
 - Second, by improving the reliability of profile-guided optimization, this work can enable more effective optimized binaries.
-This translates into performance improvements for users and, especially in large-scale deployments, can provide both economic benefits through reduced computational costs and environmental benefits through improved energy efficiency.
 
-Moreover, this research direction is aligned with industrial interests, as the reliability and effectiveness of PGO are relevant topics also explored in collaboration between academic and industrial partners, including Google.
+This translates into performance improvements for users and, especially in large-scale deployments, can provide both economic benefits through reduced computational costs and environmental benefits through improved energy efficiency.
 -->
 
 ---
@@ -574,5 +570,5 @@ Moreover, this research direction is aligned with industrial interests, as the r
 </v-clicks>
 
 <!--
-Based on discussions with LLVM developers, profile propagation validation is currently performed in a best-effort manner, or in some cases not systematically performed, due to the lack of dedicated mechanisms to verify it.
+1. Based on discussions with LLVM developers, profile propagation validation is currently performed in a best-effort manner, or in some cases not systematically performed, due to the lack of dedicated mechanisms to verify it.
 -->
