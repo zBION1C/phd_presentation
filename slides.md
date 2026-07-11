@@ -32,18 +32,19 @@ I'm here to present my proposal on a problem that arise in advanced optimization
 
 # Who Am I ?
 
-<v-clicks>
+<v-clicks depth=2>
 
-- Cyberchallenge.it 2024 finalist
-- Capture-the-Flag player at the official Sapienza CTF team
+- Cybersecurity background
+  - Cyberchallenge.it 2024 finalist
+  - Capture-the-Flag player at the official Sapienza CTF team
 - Contributed to the LLVM compiler infrastructure by reporting undiscovered bugs 
 
 </v-clicks>
 
 <div class="flex flex-row justify-center align-center mt-50px gap-50px">
-  <img v-show="$clicks>=1" src="/public/images/cyberchallenge.png" width="20%">
-  <img v-show="$clicks>=2" src="/public/images/trx.png" width="20%">
-  <img v-show="$clicks>=3" src="/public/images/llvm.jpg" width="20%">
+  <img v-show="$clicks>=2" src="/public/images/cyberchallenge.png" width="20%">
+  <img v-show="$clicks>=3" src="/public/images/trx.png" width="20%">
+  <img v-show="$clicks>=4" src="/public/images/llvm.jpg" width="20%">
 </div>
 
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
@@ -54,8 +55,8 @@ During this time, I also took part
 - in the CyberChallenge program, where I reached the final Attack & Defense competition,
 - I also participated in several online Capture The Flag competitions as a member of TRX, Sapienza's official CTF team.
 
-Although my primary focus was cybersecurity, my Master's thesis introduced me to the field of compilers, which quickly became a strong research interest.
-As part of my thesis, I contributed to the LLVM compiler infrastructure by identifying and reporting several previously undiscovered bugs.
+Although my primary focus was cybersecurity initially, my Master's thesis introduced me to the field of compilers, which became a strong research interest for me.
+As a result of my thesis, I contributed to the LLVM compiler infrastructure by identifying and reporting several previously undiscovered bugs.
 -->
 
 ---
@@ -76,16 +77,13 @@ As part of my thesis, I contributed to the LLVM compiler infrastructure by ident
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-Today, software performance is more important than ever. In large warehouse-scale deployments, even a small performance improvement can translate into significant savings in infrastructure and operating costs.
-
-One of the most effective techniques for improving performance is **Profile-Guided Optimization**, or PGO.
-
-The main idea is simple: instead of applying optimizations based only on general heuristics, the compiler tailors its optimization decisions to the way the application actually behaves during execution.
-
-To do this, it relies on a **profile**, which records how frequently different parts of the program are executed under a representative workload.
+1. Today, **software performance** is more important than ever.
+In **large warehouse-scale deployments**, even a small performance improvement can **translate** into significant savings in infrastructure and operating costs.
+2. One of the most effective techniques for improving performance is **Profile-Guided Optimization**, or PGO.
+3. The main idea behind PGO is very simple: instead of optimizing the program just by relying on **general heuristics**, the compiler **tailors** the optimization process to the way the application actually behaves during execution.
+4. To do this, it relies on a **profile**, which records how frequently different parts of the program are executed under a representative workload.
 This information allows the compiler to make more informed optimization decisions based on the application's real execution behavior.
-
-Because of this, PGO is particularly attractive for performance-critical applications, where representative execution profiles can be collected and the additional optimization effort is well justified.
+5. Because of this, PGO is particularly **attractive** for **performance-critical** applications, where representative execution profiles can be collected and the additional optimization effort is well justified.
 -->
 
 ---
@@ -119,12 +117,10 @@ Because of this, PGO is particularly attractive for performance-critical applica
 
 <!--
 The PGO workflow can be divided into three main stages.
-
-- First, the source program is compiled in an initial build phase, producing a binary instrumented or prepared for profile collection.
-
-- Second, this binary is executed under a representative workload, during which profile data is collected to capture the program's execution behavior.
-
-- Finally, the collected profile information is fed back to the compiler together with the original source code. The compiler uses this information to guide optimization decisions and generate a more efficient binary tailored to the target workload.-->
+1. First, the source program is compiled in an **initial build phase**, producing a binary instrumented or prepared for profile collection.
+2. This binary is then **executed under a representative workload**, during which profile data is collected to capture the program's execution behavior.
+3. Finally, the collected profile information is fed back to the compiler together with the original source code. The compiler uses this information to **guide optimization decisions** and generate a more efficient binary **tailored to the target workload**.
+-->
 
 ---
 
@@ -152,11 +148,10 @@ The PGO workflow can be divided into three main stages.
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-To better understand where my research fits, let's look at the life cycle of a profile within the PGO workflow.
-We can identify three main phases.
-- The first is **collection**, where the execution behavior of the application is measured while running a representative workload.
-- The second is **mapping**. Here, the collected profile information is associated with the corresponding program constructs as metadata. Examples of such metadata are information about how many times a function was invoked or how many times a branch was taken.
-- Finally, we have **usage**, where the compiler relies on this metadata to guide its optimization decisions and generate more efficient code.
+Looking at the PGO workflow we can isolate three main phases of the profile life-cycle: 
+1. The first is **collection**, where the execution behavior of the application is measured while running a representative workload.
+2. The second is **mapping**. Here, the collected profile information is associated with the corresponding program constructs as metadata. Examples of such metadata are information about how many times a function was invoked or how many times a branch was taken.
+3. Finally, we have **usage**, where the compiler relies on this metadata to guide its optimization decisions and generate more efficient code.
 -->
 
 ---
@@ -177,25 +172,22 @@ Profile must be **complete** and **accurate** in each phase of its life-cycle
 - In practice, each phase hides sources of inaccuracies
   - **Sampling** strategies are inaccurate by nature
   - The dynamic nature of software leads to **stale profiles**
-  - Optimizing passes contain errors in **metadata propagation** logic
+  - Optimization contain errors in **metadata propagation** logic
 
 </v-clicks>
 
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-Now let's look at the practical challenges of applying Profile-Guided Optimization.
-
-Ideally, the profile should remain both **complete** and **accurate** throughout its entire life cycle. By *accurate*, I mean that it should faithfully represent how the application behaves under its target workload.
-Otherwise, the compiler may make optimization decisions based on misleading information, resulting in less efficient code.
+1. Now, ideally the profile should remain both **complete** and **accurate** throughout its entire life cycle.
+By *accurate*, I mean that it should faithfully represent how the application behaves under its target workload.
+2. Otherwise, the compiler may make optimization decisions based on **misleading information**, resulting in less efficient code.
 
 In practice, however, every phase of the profile life cycle can introduce inaccuracies.
-- During **collection**, if sampling is chosen as a collection strategy, which is inherently an approximation and therefore cannot capture the program's behavior perfectly.
+- Profiles can be collected via a sampling strategy, which is **inherently an approximation** and therefore cannot capture the program's behavior perfectly.
 - Over time, profiles can also become **stale**. As software evolves, a profile collected for one version of the program may no longer accurately represent a newer version, reducing its usefulness.
-- Finally, inaccuracies can also be introduced during **optimization** itself. As compiler passes transform the program, they must update the associated profile metadata to keep it consistent with the transformed code.
-If this propagation is incorrect, subsequent optimization passes will rely on inaccurate profile information, even if the original profile was perfectly accurate.
-
-There are various works in literature that address the first two problems, while the problem that lies within the usage phase remains largely unstudied.
+- Finally, inaccuracies can also be introduced during **optimization** itself. As compiler optimization transform the program, they must **update the associated profile metadata** to keep it consistent with the transformed code.
+**If this propagation is incorrect**, subsequent optimizations will rely on inaccurate profile information, even if the original profile was perfectly accurate.
 -->
 
 ---
@@ -226,7 +218,7 @@ Several research efforts have tackled the sources of inaccuracies we have just d
 
 The last two works started exploring the problem of **profile metadata propagation** during optimization.
 
-- The first work highlights that optimization passes may fail to preserve profile information correctly.
+- The first work highlights that optimizations may fail to preserve profile information correctly.
 - The second work introduces a practical approach to detect cases where metadata is accidentally lost during optimizations.
 
 However, these approaches do not fully address the problem.
@@ -291,18 +283,15 @@ style else fill:#ffb3ba,color:#fffff
 <SlideCurrentNo class="absolute top-5 right-10" style="opacity:50%"/>
 
 <!--
-So to better understand the problem, let's take a look at this simple example.
-Consider the following snippet of C code, which checks if a variable x is greater then 0.
-If is, it calls the handle_positive function, while if it is not, it calls the handle_negative function.
-Lets assume that there's a profile associated to this program, which tells the compiler that the then branch was taken 80 times
-while the else branch was taken 20 times, thus rendering handle_positive a hot function worth of optimizing and handle_negative a cold function.
+To better understand the problem, let's look at a simple example.
 
-Lets also assume that there exists a fictional optimization that the only transformations that performs is that if flips the condition of the if check.
-Now instead of checking if x is greater than 0 the program will check if x is less than or equal then 0. It also flips the content of the then and else code blocks
-in order to preserve program semantics. But, doing this transformations, it forgets to also update the profile.
+Consider this C code snippet, which checks whether `x` is greater than zero. If the condition is true, it calls `handle_positive`; otherwise, it calls `handle_negative`.
 
-After this missed update, the compiler will erroneously think that handle_negative function is hot and will optimized the program for the wrong case,
-prioritizing the cold path over the hot one, with the result of a suboptimal final program.
+Now suppose the program has an associated profile indicating that the *then* branch is executed 80 times, while the *else* branch is executed only 20 times. Based on this information, the compiler identifies `handle_positive` as the hot path and prioritizes it during optimization.
+
+Next, imagine a fictional optimization pass that simply flips the condition of the `if` statement. The transformed program remains semantically equivalent because the contents of the two branches are swapped accordingly. However, the optimization forgets to update the associated profile.
+
+As a result, the profile no longer matches the transformed program. The compiler now incorrectly believes that `handle_negative` is the hot path and optimizes for the wrong execution scenario, ultimately producing a less efficient binary.
 -->
 
 ---
@@ -315,7 +304,7 @@ prioritizing the cold path over the hot one, with the result of a suboptimal fin
 - It can **undermine** the benefits of accurate profile collection and adaptation.
 - Ensuring correct profile propagation is **non-trivial**.
   - There is no obvious correlation between the original and transformed code.
-  - Compiler passes **interact**, so testing passes in isolation is not enough.
+  - Compiler optimizations **interact**, so testing them in isolation is not enough.
   - There are **no dedicated tools** to validate profile propagation.
 
 </v-clicks>
@@ -332,16 +321,14 @@ Profile information is **transformed** together with the program, but its correc
 [^regressions]: Performance Regression in LLVM - A SPEC CPU 2017 Study: https://discourse.llvm.org/t/performance-regression-in-llvm-a-spec-cpu-2017-study/84812
 
 <!--
-This brings us to the research gap that motivates my work.
-
-Recent studies have shown that some performance regressions can be traced back to incorrect profile propagation during compilation. In other words, even if we start with a high-quality profile, mistakes introduced by optimization passes can gradually reduce its accuracy.
-
-As a result, the benefits of all the effort spent collecting and improving the profile can be progressively lost as the optimization pipeline executes.
+Studying this problem is very important, in fact:  
+- Recent studies have shown that some performance regressions can be traced back to incorrect profile propagation during compilation.
+- The benefits of all the effort spent collecting and improving the profile can be progressively lost as the optimization pipeline executes.
 
 Addressing this problem, however, is far from straightforward.
 
-- When compiler passes transform the program, there is often no direct correspondence between the original code and the transformed code, making it difficult to determine how profile information should be updated.
-- Moreover, optimization passes interact with one another, so an incorrect update performed by one pass can affect all subsequent passes.
+- When compiler optimization transform the program, there is often no direct correspondence between the original code and the transformed code, making it difficult to determine how profile information should be updated.
+- Moreover, optimizations interact with one another, so an incorrect update performed by one pass can affect all subsequent optimization.
 - There are currently no dedicated tools to systematically verify that profile information is propagated correctly throughout the optimization pipeline.
 
 So to summarize the problem: Profile information is transformed together with the program, but its correctness cannot be directly observed.
@@ -377,7 +364,6 @@ To answer this question, I propose to develop a framework for validating profile
 
 - The first research direction is the generation of synthetic test programs whose expected profile behavior can be automatically verified after compiler transformations.
 - The second direction builds on this idea by using coverage-guided testing to automatically generate and prioritize tests that exercise as much profile propagation logic as possible.
-In this way, coverage-guided testing is not an objective on its own, but a means to validate a broader range of compiler transformations.
 
 Together, these two directions lead to two main scientific contributions:
 - a methodology for systematically assessing profile propagation correctness,
@@ -572,7 +558,7 @@ Moreover, this research direction is aligned with industrial interests, as the r
   <Highlight color="#ffdfba" iconwidth="0px" class="mb-10px">
 
     - Stress-testing via **synthetic test**
-    - **Coverage-guided exploration** of compiler passes
+    - **Coverage-guided exploration** of the compiler
     - **Automated validation** of profile correctness
 
   </Highlight>
